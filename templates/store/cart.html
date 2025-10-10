@@ -1,0 +1,184 @@
+{% extends 'base.html' %} 
+{% load static %}
+
+{% block content %}
+<link href="{% static 'css/cart.css' %}" rel="stylesheet">
+
+<section class="section-content padding-y bg">
+  <div class="container">
+
+    {% if not cart_items %}
+      <h2 class="text-center">Seu Carrinho está vizio</h2>
+      <br>
+      <div class="text-center">
+        <a href="{% url 'store' %}" class="btn btn-primary">Continuar comprando</a>
+      </div>
+    {% else %}
+
+    <div class="row">
+
+      <!-- Produtos -->
+      <aside class="col-lg-9">
+        <div class="card">
+          <table class="table table-borderless table-shopping-cart">
+
+            <!-- Linha superior -->
+            <thead class="text-muted">
+              <tr class="small text-uppercase">
+                <th scope="col">Produto</th>
+                <th scope="col" width="120">Quantidade</th>
+                <th scope="col" width="120">Preço</th>
+                <th scope="col" class="text-right" width="200"></th>
+              </tr>
+            </thead>
+
+            <!-- Produto -->
+            <tbody>
+
+              {% for cart_item in cart_items %}
+              <tr>
+
+                <!-- Informação Produto -->
+                <td>
+                  <figure class="itemside align-items-center">
+
+                    <!-- Imagem -->
+                    <div class="aside">
+                      <img src="{{ cart_item.product.images.url }}" class="img-sm" />
+                    </div>
+
+                    <!-- Info Nome -->
+                    <figcaption class="info">
+
+                      <!-- Titulo -->
+                      <a href="{{ cart_item.product.get_url }}" class="title text-dark">
+                        {{ cart_item.product.product_name }}
+                      </a>
+
+                      <!-- Info complementares -->
+                      <p class="text-muted small">
+                        {% if cart_item.variations.all %}
+                          {% for item in cart_item.variations.all %}
+                            {{ item.get_variation_category_display }}: {{ item.variation_value|capfirst }}<br>
+                          {% endfor %}
+                        {% endif %}
+                      </p>
+
+                    </figcaption>
+
+                  </figure>
+                </td>
+
+                <!-- Botoes do carrinho -->
+                <td>
+
+                  <div class="col">
+                    <div class="input-group input-spinner">
+
+                      <!-- Botão de diminuir um produto -->
+                      <div class="input-group-prepend">
+                        <a 
+                          href="{% url 'remove_cart' cart_item.product.id cart_item.id%}"
+                          class="btn btn-light"
+                          type="button"
+                          id="button-plus">
+                          <i class="fa fa-minus"></i>
+                        </a>
+                      </div>
+
+                      <!-- Quantidade de produto -->
+                      <input 
+                      type="text" class="form-control" value="{{ cart_item.quantily }}" 
+                      />
+
+                      <!-- Botão de adicionar um produto -->
+                      <div class="input-group-append">
+                        <form action="{% url 'add_cart' cart_item.product.id %}" method="POST">
+                          {% csrf_token %}
+                          {% for item in cart_item.variations.all %}
+                            <input type="hidden" name="{{ item.variation_category | lower }}" value="{{ item.variation_value | capfirst }}">
+                          {% endfor %}
+                          <button 
+                              class="btn btn-light"
+                              type="submit"
+                              id="button-minus"
+                            >
+                              <i class="fa fa-plus"></i>
+                            </button>
+                        </form>
+                      </div>
+
+                    </div>
+                  </div>
+
+                </td>
+
+                <!-- Preço Produto -->
+                <td>
+                  <div class="price-wrap">
+
+                    <!-- Valor total do produto -->
+                    <var 
+                      class="price">R$ {{ cart_item.sub_total }}
+                    </var>
+
+                    <!-- Valor Da unidade do produto -->
+                    <small 
+                      class="text-muted">R$ {{ cart_item.product.price }} Cada 
+                    </small>
+
+                  </div>
+                </td>
+
+                <!-- Botão Remover do carrinho -->
+                <td class="text-right">
+                  <a href="{% url 'remove_cart_item' cart_item.product.id cart_item.id %}" class="btn btn-danger"> 
+                    Remover
+                  </a>
+                </td>
+
+              </tr>   
+              {% endfor %}
+
+            </tbody>
+
+          </table>
+        </div>
+      </aside>
+
+      <!-- Tabela de valores -->
+      <aside class="col-lg-3">
+        <div class="card">
+          <div class="card-body">
+
+            <!-- SubTotal-->
+            <dl class="dlist-align">
+              <dt>Sub Total:</dt>
+              <dd class="text-right">R$ {{total}} </dd>
+            </dl>
+
+            <!-- Total -->
+            <dl class="dlist-align">
+              <dt>Total:</dt>
+              <dd class="text-right text-dark b"><strong>R$ {{ grand_total}} </strong></dd>
+            </dl>
+
+            <hr />
+
+            <!-- Botão finalizar compra -->
+            <a 
+            href="./place-order.html" class="btn btn-primary btn-block">
+              Finalizar Compra 
+            </a>
+
+          </div>
+        </div>
+      </aside>
+
+    </div>
+    
+    {% endif %}
+  </div>
+</section>
+
+{% endblock %}

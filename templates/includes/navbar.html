@@ -1,0 +1,60 @@
+{% load static %}
+
+<header id="header">
+
+  <!-- Top bar -->
+   <div class="header-top-bar">
+    <span>Bem Vindo a Íris</span>
+   </div>
+  
+  <!-- navigation -->
+  <nav class="navigation">
+
+    <!-- Logo-->
+    <a href="{% url 'home' %}" class="logo">
+      <img src="{% static './images/logo.png' %}" alt="Logo">
+    </a>
+
+    <!-- Menu -->
+    <ul class="menu">
+      <li><a href="#">Home</a></li>
+      <li><a href="#">Categorias</a></li>
+      <li><a href="#">Produtos</a></li>
+      <li><a href="#">Blog</a></li>
+    </ul>
+
+    <!-- Parte direita do menu-->
+    <div class="right-nav">
+
+      <!-- Pesquisa -->
+      <a href="#" class="nav-search">
+        <i class="fa-solid fa-magnifying-glass"></i>
+      </a>
+
+      <!-- User -->
+      
+      <!-- Se nao estiver logado -->
+      {% if user.id is None %}
+      <a href="{% url 'login' %}" class="nav-user">
+        <i class="fa-regular fa-user"></i>
+      </a>
+
+      <!-- Se estiver logado-->
+      {% else %}
+      <a href="{% url 'logout' %}" class="nav-user">
+        <i class="fa-regular fa-user"></i>
+      </a>
+      {% endif %}
+
+      <!-- Carrinho -->
+      <a href="{% url 'cart' %}" class="nav-cart">
+        <i class="fa-solid fa-cart-shopping"></i>
+        <!-- Contador -->
+        <span>{{ cart_count }}</span>
+      </a>
+
+    </div>
+
+  </nav>
+  
+</header>

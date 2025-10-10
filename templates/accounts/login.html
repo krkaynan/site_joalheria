@@ -1,0 +1,174 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<style>
+
+body{
+    justify-content: center;
+    align-items: center;
+    min-width: 100vh;
+}
+
+.login-box{
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    width: 440px;
+    height: 560px;
+    padding: 30px;
+    margin-left: 500px;
+}
+
+.login-header{
+    text-align: center;
+    margin: 20px 0 40px 0;
+    
+}
+
+.login-header header {
+    color: #333;
+    font-size: 30px;
+    font-weight: 600;
+}
+
+.input-box .input-field{
+    width: 100%;
+    height: 60px;
+    font-size: 17px;
+    padding: 0 25px;
+    margin-bottom: 15px;
+    border-radius: 30px;
+    box-shadow:0 2px 5px #cab273;
+    border: none;
+    outline: none;
+    transition: .3s;
+}
+
+::placeholder{
+    font-weight: 500;
+    color: #222;
+}
+
+.input-field:focus{
+    width: 105%;
+}
+
+.forgot{
+    margin-bottom: 10px;
+    margin-left: 123px;
+    text-decoration: none;
+}
+
+section{
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+    color: #555;
+}
+
+#check{
+    margin-right: 10px;
+}
+
+a{
+    text-decoration: none;
+}
+
+a:hover{
+    color: #555;
+}
+
+section a{
+    color: #555;
+}
+
+.input-submit{
+    position: relative;
+}
+
+.submit-btn{
+    width: 100%;
+    height: 60px;
+    background: #222;
+    border: none;
+    border-radius: 30px;
+    cursor: pointer;
+    transition: .3s;
+}
+
+.input-submit label{
+    position: absolute;
+    top: 45%;
+    left: 50%;
+    color: #fff;
+    -webkit-transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+    cursor: pointer;
+}
+
+.submit-btn:hover{
+    background: #000 ;
+    transform: scale(1.05,1);
+}
+
+.sing-up-link{
+    text-align: center;
+    font-size: 15px;
+    margin-top: 20px;
+}
+
+.sing-up-link a {
+    color: #000;
+    font-weight: 600;
+}
+</style>
+
+<section>
+    <div class="login-box">
+
+        <!-- Titulo -->
+        <div class="login-header">
+            <header>Login</header>
+        </div>
+
+        {% include 'includes/alerts.html' %}
+
+        <form action="{% url 'login' %}" method="POST">
+        
+        {% csrf_token %}
+
+            <!-- Email -->
+            <div class="input-box">
+                <input type="email" class="input-field" placeholder="Email" name="email">
+            </div>
+
+            <!-- Senha -->
+            <div class="input-box">
+                <input type="password" class="input-field" placeholder="Senha" name="password">
+            </div>
+
+            <!-- Recuperar senha -->
+            <div class="forgot">
+                <section class="forgot">
+                    <a href="#">Recuperar senha</a>
+                </section>
+            </div>
+
+            <!-- Botão entrar -->
+            <div class="input-submit">
+                <button type="submit" class="submit-btn" id="submit"></button>
+                <label for="submit">Entrar</label>
+            </div>
+
+        </form>
+
+        <div class="sing-up-link">
+            <p>Não tem uma conta? <a href="{% url 'register' %}"> Criar</a></p>
+        </div>
+
+    </div>
+</section>
+
+{% endblock %}
