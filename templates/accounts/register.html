@@ -116,20 +116,49 @@ body{
     <form action="{% url 'register' %}" method="POST">
       {% csrf_token %}
 
+      {# Mostra erros não vinculados a um campo (ex.: IntegrityError tratado como form.non_field_errors) #}
+      {% if form.non_field_errors %}
+        <div class="form-non-field-errors">
+          {% for err in form.non_field_errors %}
+            <div class="field-error">{{ err }}</div>
+          {% endfor %}
+        </div>
+      {% endif %}
+
       <div class="input-box">
         {{ form.first_name }}
+        {% if form.first_name.errors %}
+          <div class="field-error">
+            {% for e in form.first_name.errors %}{{ e }}{% if not forloop.last %}<br>{% endif %}{% endfor %}
+          </div>
+        {% endif %}
       </div>
 
       <div class="input-box">
         {{ form.last_name }}
+        {% if form.last_name.errors %}
+          <div class="field-error">
+            {% for e in form.last_name.errors %}{{ e }}{% if not forloop.last %}<br>{% endif %}{% endfor %}
+          </div>
+        {% endif %}
       </div>
 
       <div class="input-box">
         {{ form.email }}
+        {% if form.email.errors %}
+          <div class="field-error">
+            {% for e in form.email.errors %}{{ e }}{% if not forloop.last %}<br>{% endif %}{% endfor %}
+          </div>
+        {% endif %}
       </div>
 
       <div class="input-box">
         {{ form.password }}
+        {% if form.password.errors %}
+          <div class="field-error">
+            {% for e in form.password.errors %}{{ e }}{% if not forloop.last %}<br>{% endif %}{% endfor %}
+          </div>
+        {% endif %}
       </div>
 
       <div class="input-submit">
@@ -144,4 +173,5 @@ body{
 
   </div>
 </section>
+
 {% endblock %}
