@@ -1,0 +1,242 @@
+:root{
+    --main-color: #cab273;
+    --main-light-color: #fffbf0;
+    --secondary-color: #551756;
+    --branco: #fff;
+    --branco_sec: #f5f5f5;
+    --cinza: #474747;
+    --cinza_sec: #3b3b3b;
+    --cinza_ter: #333333;
+    --cinza_qua: #535353;
+    --cinza_qui: #5a5a5a;
+    --ciza_sex: #616161;
+    --preto: #000;
+    --preto_sec: #1d1d1d;
+    --preto_ter: #272727;
+}
+
+/* Reset / base */
+* { box-sizing: border-box; }
+html,body { height: 100%; }
+body{
+    font-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+    background: linear-gradient(180deg, var(--main-light-color) 0%, #fff 100%);
+    color: var(--cinza);
+    line-height: 1.45;
+    -webkit-font-smoothing:antialiased;
+    -moz-osx-font-smoothing:grayscale;
+    margin: 0;
+    padding: 0;
+}
+
+/* Layout tweaks */
+.section-conten {
+    padding: 40px 0;
+}
+
+/* container fix in case bootstrap container is narrow */
+.container {
+    max-width: 1180px;
+    margin: 0 auto;
+    padding: 0 18px;
+}
+
+/* ===== ADDED / CHANGED: make .row use flex so aside + main sit side-by-side on wider screens ===== */
+.row {
+    display: flex;
+    align-items: flex-start;
+    gap: 24px;
+    /* allow wrapping if absolutely necessary (keeps side-by-side but can wrap) */
+    flex-wrap: nowrap;
+}
+
+/* define sizes for aside (col-md-3) and main (col-md-9) */
+aside.col-md-3 {
+    flex: 0 0 280px; /* largura base do sidebar */
+    max-width: 320px; /* limita máximo para não ficar muito largo em telas muito grandes */
+}
+
+main.col-md-9 {
+    flex: 1 1 0; /* ocupa o espaço restante */
+    min-width: 0; /* evita overflow em elementos internos */
+}
+/* ============================================================================================== */
+
+/* CARD (main content) */
+.card {
+    background: var(--branco);
+    border-radius: 14px;
+    box-shadow: 0 10px 30px rgba(17,17,17,0.06);
+    overflow: hidden;
+    border: none;
+    margin-bottom: 20px;
+}
+
+.card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 18px 22px;
+    border-bottom: 1px solid var(--branco_sec);
+    background: linear-gradient(90deg, rgba(202,178,115,0.04), rgba(85,23,86,0.02));
+}
+
+.card-header strong { color: var(--cinza_ter); font-weight:600; }
+.card-header span { color: var(--ciza_sex); font-size: 0.95rem; }
+
+/* card body */
+.card-body{ padding: 20px 22px; }
+.card-body h6.text-muted {
+    margin-bottom: 8px;
+    color: var(--cinza_qui);
+    font-weight:600;
+    font-size:0.85rem;
+}
+.card-body p {
+    margin: 0;
+    color: var(--cinza);
+    font-size: 0.95rem;
+}
+
+/* Sidebar */
+aside .list-group {
+    background: transparent;
+    border: none;
+    padding: 6px;
+}
+.list-group-item {
+    border: none;
+    border-radius: 10px;
+    margin: 6px 0;
+    padding: 12px 14px;
+    display: block;
+    color: var(--cinza_ter);
+    background: transparent;
+    transition: all 180ms ease;
+    cursor: pointer;
+    font-weight: 500;
+    box-shadow: none;
+}
+.list-group-item:hover {
+    background: rgba(85,23,86,0.04);
+    transform: translateY(-2px);
+    color: var(--preto_ter);
+}
+.list-group-item.active {
+    background: linear-gradient(90deg, rgba(202,178,115,0.18), rgba(85,23,86,0.06));
+    color: var(--preto);
+    border-left: 4px solid var(--main-color);
+    padding-left: 12px;
+}
+
+/* Buttons */
+/* base button reset */
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 9px 14px;
+    border-radius: 10px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: all 160ms ease;
+    border: 1px solid transparent;
+    text-decoration: none;
+}
+
+/* outline primary using main-color */
+.btn-outline-primary {
+    color: var(--main-color);
+    border-color: rgba(202,178,115,0.7);
+    background: transparent;
+}
+.btn-outline-primary:hover {
+    background: var(--main-color);
+    color: var(--branco);
+    transform: translateY(-2px);
+}
+
+/* light button */
+.btn-light {
+    background: var(--branco);
+    color: var(--cinza_ter);
+    border: 1px solid var(--branco_sec);
+    box-shadow: 0 3px 10px rgba(17,17,17,0.03);
+}
+.btn-light:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(17,17,17,0.06);
+}
+
+/* full width block */
+.btn-block {
+    width: 100%;
+    padding: 12px 16px;
+}
+
+/* Table */
+.table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.95rem;
+    margin: 0;
+}
+.table td, .table th {
+    padding: 14px 12px;
+    vertical-align: middle;
+    border-bottom: 1px solid var(--branco_sec);
+}
+.table tr:hover {
+    background: linear-gradient(90deg, rgba(202,178,115,0.03), rgba(85,23,86,0.01));
+}
+.table .title {
+    font-weight:600;
+    color: var(--cinza_ter);
+    margin-bottom:6px;
+}
+.table .price {
+    color: var(--ciza_sex);
+    font-size: 0.9rem;
+}
+
+/* product image */
+.img-xs {
+    width: 64px;
+    height: 64px;
+    object-fit: cover;
+    border-radius: 10px;
+    margin-right: 10px;
+    display: inline-block;
+    border: 1px solid var(--branco_sec);
+}
+
+/* small text helpers */
+.text-muted { color: var(--ciza_sex) !important; font-weight:600; font-size:0.85rem; }
+.text-success { color: var(--secondary-color); font-weight:600; }
+.b { font-weight:700; color: var(--cinza_ter); }
+
+/* small responsive tweaks */
+@media (max-width: 920px) {
+    .card-header { flex-direction: column; align-items: flex-start; gap:8px; }
+    .container { padding: 0 14px; }
+}
+@media (max-width: 768px) {
+    /* mantém empilhado em telas pequenas */
+    .row { display: block; }
+    aside, main { width: 100%; }
+    aside { margin-bottom: 18px; }
+    .img-xs { width: 56px; height:56px; }
+    .table td, .table th { padding: 12px 8px; font-size: 0.92rem; }
+}
+
+/* accessibility focus */
+a:focus, button:focus {
+    outline: 3px solid rgba(202,178,115,0.18);
+    outline-offset: 2px;
+}
+
+/* Tiny finishing touches */
+.title.mb-0 { margin: 0; }
+.table-hover tbody tr { transition: background 140ms ease; }

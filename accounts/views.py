@@ -15,7 +15,7 @@ def register(request):
             password = form.cleaned_data['password']
             username = email.split('@')[0]
             user = Account.objects.create_user(first_name = first_name, last_name = last_name, email = email, username = username, password = password)
-            user.save()    
+            user.save()   
             messages.success(request, 'Conta criada com sucesso') #mensagem apos criacao da conta
             return redirect('login')
     else:          
@@ -43,7 +43,7 @@ def login(request):
         if user is not None:
             if user.is_active:
                 auth.login(request, user)
-                return redirect('home')
+                return redirect('dashboard')
             messages.error(request, 'Conta desativada.')
             return redirect('login')
 
@@ -58,3 +58,7 @@ def logout(request):
     auth.logout(request)
     messages.success(request, 'Voce saiu da sua conta.')
     return redirect ('login')
+
+@login_required(login_url = 'login')
+def dashboard(request):
+    return render(request, 'accounts/dashboard.html')
