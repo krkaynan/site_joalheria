@@ -1,13 +1,13 @@
 {% if messages %}
-
-    {% for message in messages %}
-    <div id="message" class="container"> 
-        <div{% if message.tags %} class="alert alert-{{ message.tags }}"{% endif %} role="alert">
-            <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span></button>
-            {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}Error: {% endif %}
-            {{ message }}
-        </div>
+  {% for message in messages %}
+    <div id="message" class="container d-flex justify-content-center mt-3">
+      <div 
+        {% if message.tags %}class="alert alert-{{ message.tags }} text-center w-50"{% else %}class="alert text-center w-50"{% endif %}
+        role="alert"
+      >
+        {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}Erro: {% endif %}
+        {{ message }}
+      </div>
     </div>
-    {% endfor %}
-
+  {% endfor %}
 {% endif %}
