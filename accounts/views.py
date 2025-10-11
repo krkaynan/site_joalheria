@@ -3,12 +3,17 @@ from .forms import RegistrationForm
 from .models import Account
 from django.contrib import messages, auth
 from django.contrib.auth.decorators import login_required
-from django.http import HttpResponse
+from django.conf import settings
 from django.contrib.sites.shortcuts import get_current_site
+from django.core.mail import EmailMultiAlternatives
 from django.template.loader import render_to_string
-from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
+from django.utils.html import strip_tags
 from django.utils.encoding import force_bytes
+from django.utils.http import urlsafe_base64_encode
 from django.contrib.auth.tokens import default_token_generator
+from django.contrib import messages
+from django.shortcuts import redirect
+from django.utils.http import urlsafe_base64_decode
 from django.core.mail import EmailMessage
 
 # Registrar usuario
@@ -26,16 +31,22 @@ def register(request):
             
             # Verificação de conta por email
             current_site = get_current_site(request)
+            domain = current_site.domain if hasattr(current_site, "domain") else str(current_site)
             mail_subject = 'Por favor ative sua conta'
-            message = render_to_string('accounts/account_verification_email.html', {
+            context = {
                 'user': user,
-                'domain': current_site,
+                'domain': domain,
                 'uid': urlsafe_base64_encode(force_bytes(user.pk)),
                 'token': default_token_generator.make_token(user),
-            })
+            }
+            html_message = render_to_string('accounts/account_verification_email.html', context)
+            text_message = strip_tags(html_message)
+            from_email = getattr(settings, "DEFAULT_FROM_EMAIL", "no-reply@seusite.com")
             to_email = email
-            send_email = EmailMessage(mail_subject, message, to=[to_email])
-            send_email.send()
+            msg = EmailMultiAlternatives(mail_subject, text_message, from_email, [to_email])
+            msg.attach_alternative(html_message, "text/html")
+            msg.send()
+
             messages.success(request, 'Obrigado por se registrar! Verifique seu e-mail para ativar sua conta.')
             return redirect('login')
     else:          
