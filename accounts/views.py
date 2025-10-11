@@ -14,7 +14,8 @@ from django.contrib.auth.tokens import default_token_generator
 from django.contrib import messages
 from django.shortcuts import redirect
 from django.utils.http import urlsafe_base64_decode
-from django.core.mail import EmailMessage
+import os
+from email.mime.image import MIMEImage
 
 # Registrar usuario
 def register(request):
@@ -112,30 +113,54 @@ def activate(request, uidb64, token):
 
 def forgotPassword(request):
     if request.method == 'POST':
-        email = request.POST['email']
-        if Account.objects.filter(email = email).exists():
-            user = Account.objects.get(email__exact = email)
-            
-            # Email de refinir senha
+        email = request.POST.get('email', '').strip()
+        if not email:
+            messages.error(request, 'Por favor informe um e-mail.')
+            return redirect('forgotPassword')
+
+        if Account.objects.filter(email=email).exists():
+            user = Account.objects.get(email__exact=email)
+
+            # uid / token
+            uidb64 = urlsafe_base64_encode(force_bytes(user.pk))
+            token = default_token_generator.make_token(user)
+
+            # domain: transformamos current_site num string (evita passar objeto)
             current_site = get_current_site(request)
-            mail_subject = 'Redefina sua senha'
-            message = render_to_string('accounts/reset_password_email.html', {
+            domain = current_site.domain if hasattr(current_site, 'domain') else str(current_site)
+
+            # Monta o contexto e renderiza o template HTML (use your template path)
+            context = {
                 'user': user,
-                'domain': current_site,
-                'uid': urlsafe_base64_encode(force_bytes(user.pk)),
-                'token': default_token_generator.make_token(user),
-            })
+                'domain': domain,
+                'uid': uidb64,
+                'token': token,
+            }
+            html_message = render_to_string('accounts/reset_password_email.html', context)
+            text_message = strip_tags(html_message)
+
+            mail_subject = 'Redefina sua senha'
+            from_email = getattr(settings, 'DEFAULT_FROM_EMAIL', 'no-reply@seusite.com')
             to_email = email
-            send_email = EmailMessage(mail_subject, message, to=[to_email])
-            send_email.send()
-            
+
+            # cria multipart (text + html)
+            msg = EmailMultiAlternatives(mail_subject, text_message, from_email, [to_email])
+            msg.attach_alternative(html_message, "text/html")
+
+            try:
+                msg.send()
+            except Exception as e:
+                messages.error(request, 'Erro ao enviar o e-mail. Tente novamente mais tarde.')
+                return redirect('forgotPassword')
             messages.success(request, 'Um link para redefinir sua senha foi enviado para o seu e-mail.')
             return redirect('login')
+        
         else:
-            messages.error(request, 'Conta não exixtente')
+            messages.error(request, 'Conta não existente')
             return redirect('forgotPassword')
-            
-    return render(request, 'accounts/forgotPassword.html')    
+
+    return render(request, 'accounts/forgotPassword.html')
+  
 
 def resetpassword_validate(request, uidb64, token):
     try:
