@@ -2,21 +2,7 @@
 {% load static %} 
 {% block content %}
 
-<link href="{% static 'css/store.css' %}" rel="stylesheet">
-
-
-<!-- Titulo da pagina -->
-<section class="section-pagetop bg">
-  <div class="container">
-
-    {% if 'search' in request.path %}
-      <h2 class="title-page">Resultado da busca</h2>
-    {% else %}
-      <h2 class="title-page">Nossa Loja</h2>
-    {% endif %}
-
-  </div>
-</section>
+<link href="{% static 'css/produtos.css' %}" rel="stylesheet">
 
 <section class="section-content padding-y">
   <div class="container">
@@ -53,43 +39,6 @@
                   {% endfor %}
                 </ul>
 
-              </div>
-            </div>
-          </article>
-          <article class="filter-group">
-            <header class="card-header">
-              <a
-                href="#"
-                data-toggle="collapse"
-                data-target="#collapse_4"
-                aria-expanded="true"
-                class=""
-              >
-                <i class="icon-control fa fa-chevron-down"></i>
-                <h6 class="title">Sizes</h6>
-              </a>
-            </header>
-            <div class="filter-content collapse show" id="collapse_4">
-              <div class="card-body">
-                <label class="checkbox-btn">
-                  <input type="checkbox" />
-                  <span class="btn btn-light"> XS </span>
-                </label>
-
-                <label class="checkbox-btn">
-                  <input type="checkbox" />
-                  <span class="btn btn-light"> SM </span>
-                </label>
-
-                <label class="checkbox-btn">
-                  <input type="checkbox" />
-                  <span class="btn btn-light"> LG </span>
-                </label>
-
-                <label class="checkbox-btn">
-                  <input type="checkbox" />
-                  <span class="btn btn-light"> XXL </span>
-                </label>
               </div>
             </div>
           </article>
@@ -162,7 +111,7 @@
           {% for product in products %}
 
           <div class="col-md-4">
-            <figure class="card card-product-grid">
+            <figure class="card card-product-grid" id="produto">
               
               <!-- Imagem Produto-->
               <div class="img-wrap">

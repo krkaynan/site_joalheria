@@ -1,0 +1,343 @@
+:root{
+    --main-color: #cab273;
+    --main-light-color: #fffbf0;
+    --secondary-color: #551756;
+    --branco: #fff;
+    --branco_sec: #f5f5f5;
+    --cinza: #474747;
+    --cinza_sec: #3b3b3b;
+    --cinza_ter: #333333;
+    --cinza_qua: #535353;
+    --cinza_qui: #5a5a5a;
+    --ciza_sex: #616161;
+    --preto: #000;
+    --preto_sec: #1d1d1d;
+    --preto_ter: #272727;
+    --radius: 12px;
+    --glass: rgba(255,255,255,0.6);
+    --shadow-1: 0 6px 18px rgba(17, 17, 17, 0.06);
+    --shadow-2: 0 12px 36px rgba(17, 17, 17, 0.08);
+    --transition-fast: 160ms;
+}
+
+/* ===========================
+   Resets e box-sizing
+   =========================== */
+html, *, *::before, *::after {
+  box-sizing: border-box;
+}
+
+/* Base */
+body{
+  margin:0;
+  background: var(--branco);
+  color: var(--cinza);
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+  line-height:1.45;
+  font-size:15px;
+}
+
+/* Container */
+.container { 
+  max-width: 1300px; 
+  min-height: 80vh;
+  margin:0 auto; 
+  padding:28px 20px; 
+  /* não forçar overflow-x aqui; deixamos as colunas encolherem corretamente */
+  -webkit-overflow-scrolling: touch; 
+  align-items: center;
+  justify-content: center;
+}
+
+/* pequenos ajustes de col-md-4 repetidos no original — mantidos */
+.col-md-4{
+  max-width: 1300px;
+}
+
+/* ROW: permitir quebra para evitar overflow lateral */
+.row {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;   /* ALTERADO: antes era nowrap */
+  gap: 20px;
+  align-items: flex-start;
+}
+
+/* Coluna lateral (sidebar)
+   Mantemos largura padrão, mas permitimos encolher um pouco em telas menores.
+*/
+.col-md-3 {
+  flex: 0 0 320px;      /* largura base fixa */
+  max-width: 320px;
+  min-width: 220px;     /* permite encolher para telas pequenas */
+  max-height: none;     /* corrigido: removida a limitação errada de 30px */
+  box-sizing: border-box;
+}
+
+/* Coluna principal (conteúdo) — permitir encolher corretamente */
+.col-md-9 {
+  flex: 1 1 0%;       /* cresce e encolhe conforme o espaço */
+  min-width: 0;       /* MUITO IMPORTANTE para evitar overflow em flex items */
+  max-width: none;    /* remove restrição contraditória */
+  box-sizing: border-box;
+  overflow: visible;
+}
+
+/* permite rolagem interna se conteúdos muito largos existirem no bloco principal */
+.col-md-9 .inner-scroll {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Cards e componentes — mantidos e ajustados para responsividade */
+.card{
+  background: var(--branco);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-1);
+  border: none;
+  overflow: hidden;
+  margin-bottom: 18px;
+}
+.card-header{
+  padding:14px 18px;
+  background: transparent;
+  border-bottom: 1px solid rgba(0,0,0,0.04);
+  display:flex;
+  align-items:center;
+  gap:12px;
+}
+.card-header .title{
+  margin:0;
+  font-weight:600;
+  color: var(--cinza_ter);
+  font-size:14px;
+}
+
+/* Filter group */
+.filter-group { margin-bottom:0; }
+.filter-content { padding:14px 18px; background:transparent; }
+.list-menu { list-style:none; padding:0; margin:0; }
+.list-menu li { margin:6px 0; }
+.list-menu a{
+  display:block;
+  padding:8px 10px;
+  border-radius:8px;
+  color: var(--cinza);
+  text-decoration:none;
+  font-weight:500;
+  transition: background var(--transition-fast), color var(--transition-fast);
+}
+.list-menu a:hover,
+.list-menu a:focus{
+  background: linear-gradient(90deg, rgba(202,178,115,0.06), rgba(85,23,86,0.04));
+  color: var(--preto_sec);
+  outline: none;
+}
+
+/* Checkbox btns (sizes) */
+.checkbox-btn { margin-right:8px; display:inline-block; }
+.checkbox-btn input{ display:none; }
+.checkbox-btn .btn{
+  border-radius:10px;
+  padding:6px 10px;
+  font-weight:600;
+  font-size:13px;
+  border:1px solid rgba(0,0,0,0.06);
+  background: var(--branco_sec);
+  transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+}
+.checkbox-btn input:checked + .btn{
+  background: var(--secondary-color);
+  color: var(--main-light-color);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(85,23,86,0.08);
+}
+
+/* Form controls */
+.form-control{
+  background: var(--branco_sec);
+  border:1px solid rgba(0,0,0,0.06);
+  border-radius:10px;
+  padding:8px 10px;
+}
+.btn.btn-primary{
+  display:inline-block;
+  width:100%;
+  padding:10px 14px;
+  border-radius:10px;
+  background: var(--secondary-color);
+  color: var(--main-light-color);
+  font-weight:700;
+  border:none;
+  cursor:pointer;
+  transition: transform var(--transition-fast), box-shadow var(--transition-fast), opacity var(--transition-fast);
+}
+.btn.btn-primary:hover{ transform: translateY(-3px); box-shadow: var(--shadow-2); }
+
+/* Product grid */
+.products-grid {
+  display: grid;
+  grid-template-columns: repeat( auto-fill, minmax(240px, 1fr) );
+  gap: 20px;
+  align-items: start; 
+}
+
+.card-product-grid{
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  max-height: 360px;
+  max-width: 240px;
+  box-sizing: border-box;
+  min-width: 0; /* evita que o card force overflow */
+}
+
+.img-wrap{
+  position: relative;
+  width: 100%;
+  min-width: 120px; /* mais permissivo para telas pequenas */
+  min-height: 180px;
+  aspect-ratio: 4 / 3;   
+  padding-top: 0;        
+  overflow: hidden;
+  background: linear-gradient(180deg, rgba(85,23,86,0.03), rgba(202,178,115,0.02));
+}
+
+.img-wrap img{
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  transition: transform 420ms ease;
+}
+
+/* Conteúdo do card ocupa o restante do espaço e empurra o CTA para baixo */
+.info-wrap{
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 14px 16px 18px;
+  flex: 1 1 auto;  /* faz o conteúdo crescer e manter o botão embaixo */
+  min-height: 0;   /* importante em flex containers */
+}
+
+/* Trunca títulos longos para não aumentar a altura do card */
+.title{
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1.22em;
+  max-height: calc(1.22em * 2);
+  margin-bottom: 6px;
+}
+
+/* Se tiver descrição curta, trunca também (opcional) */
+.card-product-grid .description {
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* CTA (botão) fixo ao final do card */
+.card-product-grid .btn{
+  margin-top: 12px;
+}
+
+/* Header counter */
+header.border-bottom{
+  border-bottom: 1px solid rgba(0,0,0,0.04);
+  margin-bottom:20px;
+}
+.form-inline { display:flex; align-items:center; gap:12px; }
+
+/* Pagination — minimal pill style */
+.pagination{
+  display:flex;
+  gap:8px;
+  list-style:none;
+  padding:0;
+  margin:8px 0;
+  flex-wrap:wrap;
+}
+.pagination .page-item { display:block; }
+.pagination .page-link{
+  display:inline-block;
+  padding:8px 12px;
+  border-radius:999px;
+  text-decoration:none;
+  background:transparent;
+  border:1px solid rgba(0,0,0,0.04);
+  color: var(--cinza);
+  font-weight:600;
+}
+.pagination .page-item.active .page-link{
+  background: var(--secondary-color);
+  color: var(--main-light-color);
+  border-color: var(--secondary-color);
+}
+
+/* Disabled look */
+.page-item.disabled .page-link{ opacity:0.45; cursor:default; }
+
+/* Small helpers */
+.mr-md-auto{ margin-right:auto; }
+.mt-4{ margin-top:18px; }
+.mb-4{ margin-bottom:18px; }
+
+/* Icons */
+.icon-control{ transition: transform var(--transition-fast); color: var(--cinza_qui); margin-right:6px; }
+
+/* Focus & accessibility */
+a:focus, button:focus, .page-link:focus{
+  outline: 3px solid rgba(85,23,86,0.12);
+  outline-offset: 3px;
+  border-radius:8px;
+}
+
+/* Proteção para imagens e blocos que possam forçar overflow */
+.img-wrap, .img-wrap img {
+  max-width: 100%;
+  display: block;
+}
+
+/* ===========================
+   Ajustes finais para evitar rolagem horizontal
+   (coloque este bloco no final do arquivo para sobrescrever regras anteriores)
+   =========================== */
+
+/* proteção global — evita que o documento inteiro role horizontalmente quando possível.
+   Nota: usamos isso como reforço; a correção principal é permitir que flex items encolham. */
+html, body {
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+/* Se houver conteúdo muito largo que precisa ser rolado, permita rolagem apenas no bloco */
+.container, .col-md-9 {
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Forçar elementos dentro do flex a não excederem a largura do contêiner */
+* {
+  min-width: 0;
+}
+
+/* Media queries: sidebar vira acima do conteúdo em telas pequenas */
+@media (max-width: 880px) {
+  .row {
+    gap: 14px;
+  }
+  .col-md-3, .col-md-9 {
+    flex: 0 0 100%;
+    max-width: 100%;
+    min-width: 0;
+  }
+  .container {
+    padding-left: 14px;
+    padding-right: 14px;
+  }
+}

@@ -44,6 +44,7 @@ header{
 
 .header-top-bar{
     border-bottom: 1px solid var(--branco_sec);
+    background-color: var(--main-color);
     padding: 10px 5px;
     display: flex;
     justify-content: center;
@@ -66,6 +67,10 @@ header{
     max-width: 1200px;
     width: 90%;
     margin: auto;
+}
+
+.header_hr{
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
 }
 
 .logo{

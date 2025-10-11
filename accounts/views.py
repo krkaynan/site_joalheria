@@ -98,4 +98,57 @@ def activate(request, uidb64, token):
     else:
         messages.error(request, 'Link de ativação invalido.')
         return redirect('register')
+
+def forgotPassword(request):
+    if request.method == 'POST':
+        email = request.POST['email']
+        if Account.objects.filter(email = email).exists():
+            user = Account.objects.get(email__exact = email)
+            
+            # Email de refinir senha
+            current_site = get_current_site(request)
+            mail_subject = 'Redefina sua senha'
+            message = render_to_string('accounts/reset_password_email.html', {
+                'user': user,
+                'domain': current_site,
+                'uid': urlsafe_base64_encode(force_bytes(user.pk)),
+                'token': default_token_generator.make_token(user),
+            })
+            to_email = email
+            send_email = EmailMessage(mail_subject, message, to=[to_email])
+            send_email.send()
+            
+            messages.success(request, 'Um link para redefinir sua senha foi enviado para o seu e-mail.')
+            return redirect('login')
+        else:
+            messages.error(request, 'Conta não exixtente')
+            return redirect('forgotPassword')
+            
+    return render(request, 'accounts/forgotPassword.html')    
+
+def resetpassword_validate(request, uidb64, token):
+    try:
+        uid = urlsafe_base64_decode(uidb64).decode()
+        user = Account._default_manager.get(pk=uid)
+    except(TypeError, ValueError, OverflowError, Account.DoesNotExist):
+        user = None 
         
+    if user is not None and default_token_generator.check_token(user, token):
+        request.session['uid'] = uid
+        messages.success(request, 'Resete sua senha')
+        return redirect ('resetPassword')
+    else:
+        messages.error(request, 'Esse link está expirado')
+        return redirect ('login')
+
+def resetPassword(request):
+    if request.method == 'POST':
+        password = request.POST['password']
+        uid = request.session.get('uid')
+        user = Account.objects.get(pk=uid)
+        user.set_password(password)
+        user.save()
+        messages.success(request, 'Sua senha foi redefinida com sucesso!')
+        return redirect('login')
+    else:
+        return render(request, 'accounts/resetPassword.html')
