@@ -1,0 +1,203 @@
+/* Cores */
+:root {
+    --main-color: #cab273;
+    --main-light-color: #fffbf0;
+    --secondary-color: #551756;
+    --branco: #fff;
+    --branco_sec: #f5f5f5;
+    --cinza: #474747;
+    --cinza_sec: #3b3b3b;
+    --cinza_ter: #333333;
+    --cinza_qua: #535353;
+    --cinza_qui: #5a5a5a;
+    --ciza_sex: #616161;
+    --preto: #000;
+    --preto_sec: #1d1d1d;
+    --preto_ter: #272727;
+}
+
+/* Section styling */
+.section-content.padding-y.bg {
+    background-color: var(--branco);
+}
+
+/* Container e card para layout moderno */
+.container {
+    justify-content: center;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1rem;
+}
+
+.card {
+    background-color: var(--branco);
+    padding: 30px 30px;
+    border-radius: 12px;
+    box-shadow: 0 0px 5px rgba(0, 0, 0, 0.08);
+    overflow: hidden;
+    border: none;
+}
+
+.row.no-gutters {
+    margin: 0;
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+    height: auto; 
+}
+
+.col-md-6 {
+    flex: 0 0 50%;
+    max-width: 50%;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+.col-md-6:first-child aside.gallery-wrap {
+    height: 500px; 
+    background: var(--branco_sec); 
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.img-big-wrap {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+.img-big-wrap a {
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+
+.img-big-wrap img {
+    width: 95%;
+    height: 95%;
+    object-fit: cover; 
+    transition: transform 0.3s ease;
+}
+
+.col-md-6:last-child main.border-left {
+    padding: 3rem;
+    border-left: 1px solid var(--branco_sec); 
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-height: 500px;
+    background: var(--branco); 
+}
+
+/* Formulário - clean */
+form {
+    width: 100%;
+}
+
+/* Corpo do conteúdo */
+.content-body {
+    flex-grow: 1;
+}
+
+/* Título */
+.content-body .title {
+    font-size: 30px;
+    font-weight: 600;
+    color: var(--cinza_ter);
+    margin-bottom: 1rem;
+    line-height: 1.2;
+}
+
+/* Preço */
+.content-body .price {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--main-color);
+    display: block;
+    margin-bottom: 1rem;
+}
+
+/* Descrição */
+.content-body p {
+    color: var(--cinza_qua);
+    margin-bottom: 2rem;
+    font-size: 1.1rem;
+    line-height: 1.7;
+}
+
+/* Linhas de separação */
+hr {
+    border: none;
+    height: 1px;
+    background-color: var(--branco_sec);
+    margin: 2rem 0;
+}
+
+/* Seleção de tamanho */
+.item-option-select h6 {
+    font-size: 1rem;
+    font-weight: 400;
+    color: var(--cinza);
+    margin-bottom: 0.5rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.item-option-select .form-control {
+    width: 25%;
+    height: 35px;       
+    border-radius: 5px;
+    padding: 4px 30px;
+    border: 2px solid rgba(0,0,0,0.06);
+    background: var(--branco);
+    box-sizing: border-box;
+    -webkit-appearance: none;  
+    appearance: none;
+    cursor: pointer;
+    font-size: 0.95rem;
+    line-height: 1;
+}
+
+.item-option-select .form-control:focus {
+    outline: none;
+    border-color: var(--main-color);
+    box-shadow: 0 0 0 3px rgba(202, 178, 115, 0.1);
+}
+
+/* Botão */
+.btn.btn-primary {
+    background-color: var(--main-color);
+    border: none;
+    color: var(--branco);
+    padding: 1rem 2rem;
+    font-size: 1.1rem;
+    font-weight: 600;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    text-decoration: none;
+    width: 70%;
+    justify-content: center;
+}
+
+.btn.btn-primary:hover {
+    transform: scale(1.05,1);
+}
+
+.btn.btn-primary i {
+    font-size: 1.2rem;
+}
+
+/* Mensagem de esgotado */
+.text-danger {
+    color: var(--secondary-color);
+    font-weight: 600;
+    font-size: 1.2rem;
+    margin: 1rem 0;
+}
