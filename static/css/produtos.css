@@ -131,14 +131,18 @@ body{
   text-decoration: underline
 }
 
-/* Checkbox btns */
+/* contador de produtos */
+.products-header {
+  background: var(--branco);   
+  color: var(--cinza_ter);             
+}
 
+/* Checkbox btns */
 .checkbox-btn input{ 
   display:none; 
 }
 
 /* seletor de preço */
-
 .price-range{
   display: flex;
 }
@@ -267,18 +271,19 @@ body{
 .price-wrap {
   text-align: center;
 }
+
 .price-wrap .price {
   display: inline-block;
   color: var(--preto);
   font-weight: 550;
   font-size: 18px;
 }
+
 .price-wrap .installment {
   display: block;
   margin-top: 4px;
   color: #6b6b6b;
 }
-
 
 .card-product-grid .description {
   display: block;

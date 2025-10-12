@@ -9,7 +9,7 @@
 
     <!-- Img -->
     <img 
-    src="{% static 'images/banners/banner_1.jpg' %}?v={{ ts }}" alt="Banner"
+    src="{% static 'images/banners/banner.png' %}?v={{ ts }}" alt="Banner"
     >
 
     <!-- Texto -->
@@ -99,9 +99,15 @@
 
     <!-- Text -->
     <div class="product-grid-text">
-      <span>Lindos</span>
-      <strong>Anéis de ouro e prata</strong>
-      <a href="#">Compre Agora</a>
+      <span>Peças elegantes</span>
+      <strong>O toque final da perfeição</strong>
+
+      {% for category in links %}
+        {% if category.slug == "aneis" %}
+          <a href="{% url 'products_by_category' category.slug %}">Garanta o seu</a>
+        {% endif %}
+      {% endfor %}
+
     </div>
 
   </div>
@@ -116,9 +122,13 @@
 
     <!-- Text -->
     <div class="product-grid-text">
-      <span>Lindos</span>
-      <strong>Brincos de diamante</strong>
-      <a href="#">Compre Agora</a>
+      <span>Designs exclusivos</span>
+      <strong>Que exala exclusividade</strong>
+      {% for category in links %}
+        {% if category.slug == "brincos" %}
+          <a href="{% url 'products_by_category' category.slug %}">Garanta o seu</a>
+        {% endif %}
+      {% endfor %}
     </div>
 
   </div>
@@ -133,9 +143,13 @@
 
     <!-- Text -->
     <div class="product-grid-text">
-      <span>Lindos</span>
-      <strong>Colares</strong>
-      <a href="#">Compre Agora</a>
+      <span>Elegância</span>
+      <strong>Brilho para cada ocasião </strong>
+      {% for category in links %}
+        {% if category.slug == "colares" %}
+          <a href="{% url 'products_by_category' category.slug %}">Garanta o seu</a>
+        {% endif %}
+      {% endfor %}
     </div>
 
   </div>

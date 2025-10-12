@@ -10,40 +10,48 @@
       <img src="{% static './images/logo.png' %}" alt="Logo">
     </a>
 
+    <div class="nav-row"></div>
     <!-- Menu -->
     <ul class="menu">
-      <li><a href="{% url 'home' %}">Home</a></li>
-      <li><a href="#">Categorias</a></li>
-      <li><a href="{% url 'store' %}">Produtos</a></li>
-      <li><a href="#">Blog</a></li>
+      <li><a href="{% url 'home' %}">HOME</a></li>
+      <li><a href="{% url 'store' %}">SALE</a></li>
+      <li><a href="#">BRINCOS</a></li>
+      <li><a href="#">PULSEIRAS</a></li>
+      <li><a href="#">COLARES</a></li>
+      <li><a href="#">ANÉIS</a></li>
     </ul>
 
     <!-- Parte direita do menu-->
     <div class="right-nav">
 
-      <!-- Pesquisa -->
-      <a href="#" class="nav-search">
-        <i class="fa-solid fa-magnifying-glass"></i>
-      </a>
+      <form action="{% url 'search' %}" class="search" method="GET" role="search" aria-label="Formulário de busca">
+        <div class="search-box">
+          <input type="text" class="search-input" placeholder="Buscar produto" name="keyword" required aria-label="Pesquisar">
+          <button class="search-btn" type="submit" aria-label="Pesquisar">
+            <i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i>
+          </button>
+        </div>
+      </form>
+
 
       <!-- User -->
       
       <!-- Se nao estiver logado -->
       {% if user.id is None %}
       <a href="{% url 'login' %}" class="nav-user">
-        <i class="fa-regular fa-user"></i>
+        <img class="user" src="{% static 'images/icons/icon-user.png' %}?v={{ ts }}" alt="cart">
       </a>
 
       <!-- Se estiver logado-->
       {% else %}
       <a href="{% url 'dashboard' %}" class="nav-user">
-        <i class="fa-regular fa-user"></i>
+        <img class="user" src="{% static 'images/icons/icon-user.png' %}?v={{ ts }}" alt="cart">
       </a>
       {% endif %}
 
       <!-- Carrinho -->
       <a href="{% url 'cart' %}" class="nav-cart">
-        <i class="fa-solid fa-cart-shopping"></i>
+        <img class="bag" src="{% static 'images/icons/icon-sacola.png' %}?v={{ ts }}" alt="cart">
         <!-- Contador -->
         <span>{{ cart_count }}</span>
       </a>

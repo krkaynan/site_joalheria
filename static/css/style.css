@@ -17,6 +17,7 @@ ul{
 }
 
 :root{
+    --background-color: #EFEDE7;
     --main-color: #cab273;
     --main-light-color: #fffbf0;
     --secondary-color: #551756;
@@ -31,6 +32,11 @@ ul{
     --preto: #000;
     --preto_sec: #1d1d1d;
     --preto_ter: #272727;
+    --nav-height: 44px;
+}
+
+body{
+    background-color: var(--branco);
 }
 
 /* Header */
@@ -38,7 +44,7 @@ ul{
 header{
     display: flex;
     flex-direction: column;
-    background-color: var(--branco);
+    background-color: var(--background-color);
     width: 100%;
 }
 
@@ -65,6 +71,7 @@ header{
     align-items: center;
     padding: 25px 0px;
     max-width: 1200px;
+    min-height: var(--nav-height);
     width: 90%;
     margin: auto;
 }
@@ -85,6 +92,12 @@ header{
 
 .menu{
     display: flex;
+    align-items: center;
+}
+
+.menu li{
+    display: flex;
+    align-items: center;
 }
 
 .menu li a{
@@ -96,6 +109,9 @@ header{
     font-size: 0.9rem;
     transition: all ease 0.3s;
     text-decoration: none;
+    height: var(--nav-height);
+    padding: 9px 20px;
+    margin: 0 12px;
 }
 
 .menu li a:hover{
@@ -114,10 +130,77 @@ header{
     display: flex;
     justify-content: center;
     align-items: center;
-    border-radius: 50%;
-    background-color: var(--main-light-color);
     position: relative;
     text-decoration: none;
+}
+
+.search .search-box {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  max-height: 40px;
+  max-width: 200px;    
+  background: #fff;      
+  border: 1px solid var(--preto); 
+  border-radius: 30px;
+  overflow: hidden;       
+  box-sizing: border-box;
+  transition: .1s;
+}
+
+.search .search-box:hover{
+    border: 2px solid var(--main-color);
+}
+
+.search .search-input {
+  flex: 1 1 auto;
+  min-width: 0;           
+  height: 20px;
+  padding: 0 .9rem;
+  border: none;          
+  outline: none;
+  font-size: 0.8rem;
+  background: transparent;
+  color: inherit;
+  box-sizing: border-box;
+}
+
+.search .search-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 44px;
+  padding: 0 10px 0 0;
+  border: none;
+  color: var(--preto_ter);
+  background-color: transparent;
+  cursor: pointer;
+  font-size: 1rem;
+  line-height: 1;
+  transition: background .12s ease, transform .08s ease;
+}
+
+.search .search-btn .fa-solid {
+  font-size: 18px;
+  line-height: 1;
+  display: inline-block;
+}
+
+/* containers */
+.nav-cart,
+.nav-user,
+.nav-search {
+  position: relative;
+  display: inline-block;
+  vertical-align: middle; 
+}
+
+/* icon do carrinho */
+.nav-cart .bag,
+.nav-user .user {
+  width: 23px;
+  height: auto;
+  display: inline-block;
 }
 
 .right-nav a i{
@@ -127,8 +210,8 @@ header{
 
 .right-nav a span{
     position: absolute;
-    top: -7px;
-    right: -7px;
+    top: -5px;
+    right: -5px;
     width: 20px;
     height: 20px;
     display: flex;
@@ -160,18 +243,18 @@ header{
     width: 100%;
     height: 100%;
     object-fit: cover;
-    object-position: center;
+    margin-left: 0px;
 }
 
 .main-banner-text{
     position: absolute;
-    left: 10%;
+    left: 13%;
     top: 50%;
     transform: translate(-10%, -50%);
 }
 
 .main-banner-text h1{
-    font-size: 3rem;
+    font-size: 3.5rem;
     max-width: 500px;
     line-height: 3.3rem;
     font-weight: 400;
@@ -180,7 +263,8 @@ header{
 
 .main-banner-text p{
     color: var(--cinza_ter);
-    font-size: 1.1rem;
+    font-size: 1.5rem;
+    max-width: 400px;
     margin: 10px 0px;
     letter-spacing: 0.1px;
 }
@@ -188,8 +272,8 @@ header{
 .main-banner-text a{
     color: var(--branco);
     background-color: var(--main-color);
-    width: 150px;
-    height: 40px;
+    width: 200px;
+    height: 50px;
     display: flex;
     justify-content: center;
     align-items: center;
