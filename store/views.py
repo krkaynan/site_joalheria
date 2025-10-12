@@ -6,6 +6,8 @@ from carts.views import _cart_id
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.http import HttpResponse
 from django.db.models import Q
+from decimal import Decimal, ROUND_HALF_UP
+
 
 def store(request, category_slug = None):
     categories = None
@@ -14,15 +16,32 @@ def store(request, category_slug = None):
     if category_slug != None:
         categories = get_object_or_404(Category, slug = category_slug)
         products = Product.objects.filter(category = categories, is_available = True)
-        paginator = Paginator(products, 3) # Quantidade de produtos por pagina
+        paginator = Paginator(products, 6) # Quantidade de produtos por categoria
         page = request.GET.get('page')
-        paged_products = paginator.get_page(page) 
+        paged_products = paginator.get_page(page)
+        # calcula a parcela (10x sem juros) para cada produto da página
+        for p in paged_products:
+            try:
+                # converte para Decimal com segurança (caso price seja float/str/Decimal)
+                price = Decimal(str(p.price))
+                p.installment = (price / Decimal(10)).quantize(Decimal('0.01'), rounding=ROUND_HALF_UP)
+            except Exception:
+                p.installment = None
         product_count = products.count()
     else: 
         products = Product.objects.all().filter(is_available = True).order_by('id')
-        paginator = Paginator(products, 3) # Quantidade de produtos por pagina
+        paginator = Paginator(products, 9) # Quantidade de produtos por pagina
         page = request.GET.get('page')
         paged_products = paginator.get_page(page) 
+        # calcula a parcela (10x sem juros) para cada produto da página
+        for p in paged_products:
+            try:
+                # converte para Decimal com segurança (caso price seja float/str/Decimal)
+                price = Decimal(str(p.price))
+                p.installment = (price / Decimal(10)).quantize(Decimal('0.01'), rounding=ROUND_HALF_UP)
+            except Exception:
+                p.installment = None
+
         product_count = products.count()
     
     context = {

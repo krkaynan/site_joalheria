@@ -2,7 +2,7 @@
 {% load static %} 
 {% block content %}
 
-<link href="{% static 'css/produtos.css' %}" rel="stylesheet">
+<link href="{% static 'css/produto.css' %}" rel="stylesheet">
 
 <section class="section-content padding-y">
   <div class="container">
@@ -12,6 +12,7 @@
       <aside class="col-md-3">
         <div class="card">
           <article class="filter-group">
+
             <header class="card-header">
               <a
                 href="#"
@@ -20,10 +21,10 @@
                 aria-expanded="true"
                 class=""
               >
-                <i class="icon-control fa fa-chevron-down"></i>
-                <h6 class="title">Categories</h6>
+                <h6 class="title">Categorias</h6>
               </a>
             </header>
+
             <div class="filter-content collapse show" id="collapse_1">
               <div class="card-body">
 
@@ -43,7 +44,9 @@
             </div>
           </article>
 
+          <!-- seletor de preco -->
           <article class="filter-group">
+
             <header class="card-header">
               <a
                 href="#"
@@ -52,42 +55,49 @@
                 aria-expanded="true"
                 class=""
               >
-                <i class="icon-control fa fa-chevron-down"></i>
-                <h6 class="title">Price range</h6>
+                <h6 class="title">Filtrar por preço</h6>
               </a>
+
             </header>
+
             <div class="filter-content collapse show" id="collapse_3">
               <div class="card-body">
-                <div class="form-row">
-                  <div class="form-group col-md-6">
-                    <label>Min</label>
-                    <select class="mr-2 form-control">
-                      <option value="0">$0</option>
-                      <option value="50">$50</option>
-                      <option value="100">$100</option>
-                      <option value="150">$150</option>
-                      <option value="200">$200</option>
-                      <option value="500">$500</option>
-                      <option value="1000">$1000</option>
+                <div class="price-range">
+
+                  <div class="price-control">
+                    <label for="price-min" class="price-label">Min</label>
+                    <select id="price-min" class="form-control price-select">
+                      <option value="100">R$ 100</option>
+                      <option value="150">R$ 150</option>
+                      <option value="200">R$ 200</option>
+                      <option value="500">R$ 500</option>
+                      <option value="1000">R$ 1000</option>
+                      <option value="2000">R$ 2000</option>
+                      <option value="3000">R$ 3000</option>
                     </select>
                   </div>
-                  <div class="form-group text-right col-md-6">
-                    <label>Max</label>
-                    <select class="mr-2 form-control">
-                      <option value="50">$50</option>
-                      <option value="100">$100</option>
-                      <option value="150">$150</option>
-                      <option value="200">$200</option>
-                      <option value="500">$500</option>
-                      <option value="1000">$1000</option>
-                      <option value="2000">$2000+</option>
+
+                  <div class="price-control">
+                    <label for="price-max" class="price-label">Max</label>
+                    <select id="price-max" class="form-control price-select">
+                      <option value="200">R$ 200</option>
+                      <option value="300">R$ 300</option>
+                      <option value="450">R$ 400</option>
+                      <option value="500">R$ 500</option>
+                      <option value="100">R$ 1000</option>
+                      <option value="2000">R$ 2000</option>
+                      <option value="3000">R$ 3000+</option>
                     </select>
                   </div>
+
                 </div>
-                <button class="btn btn-block btn-primary">Apply</button>
+
+                <button class="btn btn-block btn-primary mt-3">Aplicar</button>
               </div>
             </div>
+
           </article>
+
         </div>
       </aside>
 
@@ -104,55 +114,61 @@
           </div>
         </header>
 
-        <!-- Produto -->
-        <div class="row">
-
-          {% if products %}
+        {% if products %}
           {% for product in products %}
+            {% if forloop.counter0|divisibleby:3 %}
+              <!-- Produto -->
+              <div class="row">
+            {% endif %}
 
-          <div class="col-md-4">
-            <figure class="card card-product-grid" id="produto">
-              
-              <!-- Imagem Produto-->
-              <div class="img-wrap">
-                <a href="{{ product.get_url }}"><img src="{{ product.images.url }}" /></a>
-              </div>
+            <div class="col-md-4">
+              <figure class="card card-product-grid" id="produto">
 
-              <!-- Informações do produto-->
-              <figcaption class="info-wrap">
-                <div class="fix-height">
-
-                  <!-- Nome Produto -->
-                  <a href="{{ product.get_url }}" class="title">
-                    {{ product.product_name }}
+                <!-- img -->
+                <div class="img-wrap">
+                  <a href="{{ product.get_url }}">
+                    <img src="{{ product.images.url }}" alt="{{ product.product_name }}" class="img-fluid"/>
                   </a>
-
-                  <!-- Preço produto-->
-                  <div class="price-wrap mt-2">
-                    <span class="price">R$ {{ product.price }}</span>
-                  </div>
-
                 </div>
 
-                <!-- Botão adicionar ao carrinho -->
-                <a 
-                  href="{{ product.get_url }}" class="btn btn-block btn-primary">
-                  Ver detalhes
-                </a>
+                <!-- text -->
+                <figcaption class="info-wrap">
 
-              </figcaption>
+                  <!-- text produtos -->
+                  <div class="fix-height">
+                    <a href="{{ product.get_url }}" class="title">{{ product.product_name }}</a>
 
-            </figure>
-          </div>
+                    <div class="price-wrap mt-2">
+                      <span class="price">R$ {{ product.price }}</span>
 
-          {% endfor %}
+                        <div class="installment small text-muted">
+                          10x sem juros de R$ {{ product.installment }}
+                        </div>
+                      <!-- Botão ver detalhe -->
+                      <a 
+                        href="{{ product.get_url }}" class="btn btn-block btn-primary">
+                        Ver detalhes
+                      </a>
+                    </div>
+
+
+                  </div>
+                </figcaption>
+
+              </figure>
+            </div>
+
+              {% if forloop.counter0|add:1|divisibleby:3 or forloop.last %}
+              </div> 
+              {% endif %}
+            {% endfor %}
           {% else %}
-          <div>
-            <h2> Sem resultados para essa pesquisa. Por favor Tente novamente.</h2>
-          </div>
+            <!-- sem resultado para pesquisa-->
+            <div>
+              <h2>Sem resultados para essa pesquisa. Por favor tente novamente.</h2>
+            </div>
           {% endif %}
 
-        </div>
 
         <!-- Passador de paginas -->
         <nav class="mt-4" aria-label="Page navigation sample">

@@ -1,0 +1,342 @@
+/* Cores */
+:root{
+    --main-color: #cab273;
+    --main-light-color: #fffbf0;
+    --secondary-color: #551756;
+    --branco: #ffffff;
+    --branco_sec: #f5f5f5;
+    --cinza: #474747;
+    --cinza_sec: #3b3b3b;
+    --cinza_ter: #333333;
+    --cinza_qua: #535353;
+    --cinza_qui: #5a5a5a;
+    --ciza_sex: #616161;
+    --preto: #000;
+    --preto_sec: #1d1d1d;
+    --preto_ter: #272727;
+    --radius: 12px;
+    --glass: rgba(255,255,255,0.6);
+    --shadow-1: 0 6px 18px rgba(17, 17, 17, 0.06);
+    --shadow-2: 0 12px 36px rgba(17, 17, 17, 0.08);
+    --transition-fast: 160ms;
+}
+
+/* Base */
+body{
+  margin:0;
+  background: var(--branco);
+  color: var(--cinza);
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+  line-height:1.45;
+  font-size:15px;
+}
+
+/* Container */
+.container { 
+  max-width: 1300px; 
+  min-height: 80vh;
+  margin:0 auto; 
+  padding:28px 20px; 
+  -webkit-overflow-scrolling: touch; 
+  align-items: center;
+  justify-content: center;
+}
+
+.col-md-4{
+  max-width: 1300px;
+}
+
+.row {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;  
+  gap: 20px;
+  align-items: flex-start;
+}
+
+.col-md-3 {
+  flex: 0 0 320px;      
+  max-width: 320px;
+  min-width: 220px;     
+  box-sizing: border-box;
+  margin-top: 40px;
+}
+
+.col-md-9 {
+  flex: 1 1 0%;      
+  min-width: 0;       
+  max-width: none;    
+  box-sizing: border-box;
+  overflow: visible;
+}
+
+/* Cards lateral */
+.card{
+  background: var(--branco);
+  border-radius: var(--radius);
+  border: 1px solid rgba(0,0,0,0.04);
+  overflow: hidden;
+  margin-bottom: 18px;
+}
+
+.card-header{
+  padding-top: 20px;
+  background: var(--branco);
+  border-bottom: 1px solid rgba(0,0,0,0.04);
+  border-top: 1px solid rgba(0,0,0,0.04);
+  display:flex;
+  align-items:center;
+}
+
+.card-header .title{
+  margin:0;
+  font-weight:600;
+  color: var(--cinza_ter);
+  font-size:18px;
+}
+
+/* Filter group */
+.filter-group{
+  margin-bottom:0; 
+}
+
+.filter-content{ 
+  padding:14px 18px; 
+  background:transparent; 
+}
+
+.list-menu{ 
+  list-style:none; 
+  padding:0; 
+  margin:0; 
+}
+
+.list-menu li{ 
+  margin:6px 0; 
+}
+
+.list-menu a{
+  display:block;
+  padding:8px 10px;
+  border-radius:8px;
+  color: var(--cinza);
+  text-decoration:none;
+  font-weight:500;
+  transition: background var(--transition-fast), color var(--transition-fast);
+}
+
+.list-menu a:hover,
+.list-menu a:focus{
+  text-decoration: underline
+}
+
+/* Checkbox btns */
+
+.checkbox-btn input{ 
+  display:none; 
+}
+
+/* seletor de preço */
+
+.price-range{
+  display: flex;
+}
+
+.price-control{
+  flex: 1 1 0;             
+  min-width: 150px;          
+}
+
+.price-label{
+  font-weight: 550;
+  font-size: 0.95rem;
+  color: var(--cinza_ter);
+}
+
+/* caixa do select (altura e padronização visual) */
+.price-select{
+  height: 35px;              
+  width: 103px;       
+  border-radius: 5px;
+  padding: 4px 3px;
+  border: 2px solid rgba(0,0,0,0.06);
+  background: var(--branco);
+  box-sizing: border-box;
+  -webkit-appearance: none;  
+  appearance: none;
+  cursor: pointer;
+  font-size: 0.95rem;
+  line-height: 1;
+}
+
+/* Botão */
+.btn.btn-primary{
+  display:inline-block;
+  width:100%;
+  padding:10px 14px;
+  margin-top: 20px;
+  margin-bottom: 10px;
+  border: 1px solid var(--preto);
+  text-align: center;
+  background: var(--branco);
+  color: var(--preto);
+  font-weight:700;
+  cursor:pointer;
+  transition: .3s;
+}
+
+.btn.btn-primary:hover{ 
+  transform: scale(1.05,1);
+}
+
+/* Product grid */
+.products-grid {
+  display: grid;
+  grid-template-columns: repeat( auto-fill, minmax(240px, 1fr) );
+  gap: 20px;
+  align-items: start; 
+  grid-auto-rows: 360px; 
+}
+
+/* Card produto */
+.card-product-grid{
+  border: 1px solid rgba(0,0,0,0.06);
+  background-color: var(--branco);
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-height: 512px;
+  max-width: 280px;
+  box-sizing: border-box;
+  min-width: 0; 
+  max-height: none;
+}
+
+/* imagem produto */
+.img-wrap{
+  position: relative;
+  width: 100%;
+  min-width: 120px; 
+  min-height: 310px;
+  aspect-ratio: 4 / 3;   
+  padding-top: 0;        
+  overflow: hidden;
+}
+
+.img-wrap img{
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  transition: transform 420ms ease;
+}
+
+.info-wrap{
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 14px 16px 18px;
+  flex: 1 1 auto;               /* faz o conteúdo crescer e manter o botão embaixo */
+  min-height: 120px;            /* <-- garante espaço mínimo para título + descrição */
+  justify-content: space-between; /* empurra CTA para baixo */
+  overflow: hidden;   
+}
+
+/* Nome produto */
+.title{
+  font-family: "Libre Baskerville", Georgia, "Times New Roman", serif;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-align: center;
+  line-height: 1.22em;
+  max-height: calc(1.22em * 2);
+  min-height: calc(1.22em * 2);   
+  margin-bottom: 6px;
+  color: var(--cinza_ter);
+  font-weight: 500;
+  font-size: 18px;
+  display: block;
+}
+
+/* preço produto */
+.price-wrap {
+  text-align: center;
+}
+.price-wrap .price {
+  display: inline-block;
+  color: var(--preto);
+  font-weight: 550;
+  font-size: 18px;
+}
+.price-wrap .installment {
+  display: block;
+  margin-top: 4px;
+  color: #6b6b6b;
+}
+
+
+.card-product-grid .description {
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1.22em;
+  max-height: calc(1.22em * 3); /* mostra até 3 linhas */
+  white-space: normal;
+}
+
+.card-product-grid .btn{
+  margin-top: 12px;
+}
+
+/* Header counter */
+header.border-bottom{
+  border-bottom: 1px solid rgba(0,0,0,0.04);
+  margin-bottom:20px;
+}
+
+.form-inline{ 
+  display:flex; 
+  align-items:center; 
+  gap:12px; 
+}
+
+/* Pagination */
+.pagination{
+  display:flex;
+  gap:8px;
+  list-style:none;
+  padding:0;
+  margin:8px 0;
+  flex-wrap:wrap;
+}
+
+.pagination .page-item{
+  display:block; 
+}
+
+.pagination .page-link{
+  display:inline-block;
+  padding:8px 12px;
+  border-radius:999px;
+  text-decoration:none;
+  background:transparent;
+  color: var(--cinza);
+  font-weight:600;
+}
+
+.pagination .page-item.active .page-link{
+  background: var(--main-color);
+  color: var(--main-light-color);
+  border-color: var(--secondary-color);
+}
+
+/* Disabled look */
+.page-item.disabled .page-link{ 
+  opacity:0.45; 
+  cursor:default; 
+}
