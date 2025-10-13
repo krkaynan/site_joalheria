@@ -13,12 +13,53 @@
     <div class="nav-row"></div>
     <!-- Menu -->
     <ul class="menu">
-      <li><a href="{% url 'home' %}">HOME</a></li>
-      <li><a href="{% url 'store' %}">SALE</a></li>
-      <li><a href="#">BRINCOS</a></li>
-      <li><a href="#">PULSEIRAS</a></li>
-      <li><a href="#">COLARES</a></li>
-      <li><a href="#">ANÉIS</a></li>
+
+      <!-- HOME -->
+      <li>
+        <a href="{% url 'home' %}">HOME</a>
+      </li>
+
+      <!-- SALE -->
+      <li>
+        <a href="{% url 'store' %}">SALE</a>
+      </li>
+
+      <!-- BRINCOS -->
+      <li>
+        {% for category in links %}
+          {% if category.slug == "brincos" %}
+            <a href="{% url 'products_by_category' category.slug %}">BRINCOS</a>
+          {% endif %}
+        {% endfor %}
+      </li>
+
+      <!-- PULSEIRAS -->
+      <li>
+       {% for category in links %}
+          {% if category.slug == "pulseiras" %}
+          <a href="{% url 'products_by_category' category.slug %}">PULSEIRAS</a>
+          {% endif %}
+        {% endfor %}
+      </li>
+
+      <!-- COLARES -->
+      <li>
+        {% for category in links %}
+          {% if category.slug == "colares" %}
+          <a href="{% url 'products_by_category' category.slug %}">COLARES</a>
+          {% endif %}
+        {% endfor %}
+      </li>
+
+      <!-- ANÉIS -->
+      <li>
+        {% for category in links %}
+          {% if category.slug == "aneis" %}
+          <a href="{% url 'products_by_category' category.slug %}">ANÉIS</a>
+          {% endif %}
+        {% endfor %}
+      </li>
+
     </ul>
 
     <!-- Parte direita do menu-->
