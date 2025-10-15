@@ -392,3 +392,125 @@ header{
 .product-grid-half .product-grid-box2{
     grid-row: 1/3;  
 }
+
+/* products */
+
+#products {
+    max-width: 1200px;
+    width: 90%;
+    margin: 90px auto;
+}
+
+.products-heading{
+    width: 100%;
+    margin: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    margin-bottom: 40px;
+}
+
+.products-heading h2{
+    font-size: 1.8rem;
+    color: var(--preto_ter);
+    font-weight: 500;
+}
+
+.products-heading p{
+    color: var(--cinza_qui);
+    font-size: 0.8rem;
+    font-weight: 400;
+}
+
+.products-box{
+    max-width: 250px;
+    width: 100%;
+    border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+    background-color: var(--branco);
+}
+
+.products-img{
+    width: 100%;
+    height: 250px;
+    display: flex;
+    margin: auto;
+    overflow: hidden;
+    position: relative;
+}
+
+.products-img img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+}
+
+.products-text{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 5px 20px;   
+}
+
+.products-text .product-title{
+    color: var(--preto_sec);
+    font-weight: 400;
+    font-size: 0.9rem;
+}
+
+.products-text span{
+    color: var(--main-color);
+    font-size: 0.9rem;
+    font-weight: 400;
+}
+
+.products-img span{
+    position: absolute;
+    left: 10px;
+    top: 10px;
+    background-color: var(--main-color);
+    color: var(--branco);
+    padding: 3px 10px;
+    font-weight: 400;
+    border-radius: 4px;
+    font-size: 0.8rem;
+    letter-spacing: 0.5px;
+}
+
+.product-cart-btn{
+    position: absolute;
+    left: 50%; 
+    bottom: -100%;
+    transform: translateX(-50%);
+    background-color: var(--branco);
+    border: none;
+    outline: none;
+    width: 130px;
+    height: 40px;
+    border-radius: 30px;
+    box-shadow: 2px 2px 16px rgba(0, 0, 0, 0.1);
+    font-size: 0.8rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all ease 0.3s;
+}
+
+.products-img:hover .product-cart-btn{
+    bottom: 20px;
+}
+
+/* paginator */
+
+.swiper-pagination{
+    position: static !important;
+    margin-top: 10px !important;
+}
+
+.swiper-pagination-bullet-active{
+    background-color: var(--main-color) !important;
+}

@@ -1,46 +1,32 @@
-{% extends 'base.html' %}
-{% load static %}
-
-{% block content %}
+{% extends 'base.html' %} {% load static %} {% block content %}
 
 <!-- Banner -->
 <section id="main-banner">
   <div class="main-banner-box">
-
     <!-- Img -->
-    <img 
-    src="{% static 'images/banners/banner.png' %}?v={{ ts }}" alt="Banner"
-    >
+    <img
+      src="{% static 'images/banners/banner.png' %}?v={{ ts }}"
+      alt="Banner"
+    />
 
     <!-- Texto -->
     <div class="main-banner-text">
-
       <!-- Titulo -->
-      <h1>
-        Família Íris Collection
-      </h1>
+      <h1>Família Íris Collection</h1>
 
       <!-- Texto -->
-      <p>
-        Designer de Anéis, Colares, Pulseiras e Brincos
-      </p>
+      <p>Designer de Anéis, Colares, Pulseiras e Brincos</p>
 
       <!-- Botão compre agora -->
-      <a 
-      href="{% url 'store' %}">Compre agora
-      </a>
-
+      <a href="{% url 'store' %}">Compre agora </a>
     </div>
-
   </div>
 </section>
 
 <!-- informaçoes de serviço -->
 <section class="what-we-provide">
-
   <!-- frete gratis -->
   <div class="w-info-box">
-
     <!-- icon -->
     <div class="w-info-icon">
       <i class="fa-solid fa-plane"></i>
@@ -51,7 +37,6 @@
       <strong>Frete grátis</strong>
       <p>Aproveite entregas rápidas sem custo adicional</p>
     </div>
-
   </div>
 
   <!-- suporte -->
@@ -70,7 +55,6 @@
 
   <!-- Pagamento -->
   <div class="w-info-box">
-
     <!-- icon -->
     <div class="w-info-icon">
       <i class="fa-regular fa-credit-card"></i>
@@ -81,79 +65,156 @@
       <strong>Pagamento 100% seguro</strong>
       <p>Transações protegidas com total segurança.</p>
     </div>
-
   </div>
-
 </section>
 
 <!-- Product-grid -->
 <section class="product-grid-half">
-
   <!-- Box 1 -->
   <div class="product-grid-box product-grid-box2">
-
     <!-- Img -->
-    <img 
-    src="{% static './images/box1.webp' %}" alt="produtos"
-    >
+    <img src="{% static './images/box1.webp' %}" alt="produtos" />
 
     <!-- Text -->
     <div class="product-grid-text">
       <span>Peças elegantes</span>
       <strong>O toque final da perfeição</strong>
 
-      {% for category in links %}
-        {% if category.slug == "aneis" %}
-          <a href="{% url 'products_by_category' category.slug %}">Garanta o seu</a>
-        {% endif %}
-      {% endfor %}
-
+      {% for category in links %} {% if category.slug == "aneis" %}
+      <a href="{% url 'products_by_category' category.slug %}">Garanta o seu</a>
+      {% endif %} {% endfor %}
     </div>
-
   </div>
 
   <!-- Box 2 -->
   <div class="product-grid-box product-grid-box1">
-
     <!-- Img -->
-    <img 
-    src="{% static './images/box2.webp' %}" alt="produtos"
-    >
+    <img src="{% static './images/box2.webp' %}" alt="produtos" />
 
     <!-- Text -->
     <div class="product-grid-text">
       <span>Designs exclusivos</span>
       <strong>Que exala exclusividade</strong>
-      {% for category in links %}
-        {% if category.slug == "brincos" %}
-          <a href="{% url 'products_by_category' category.slug %}">Garanta o seu</a>
-        {% endif %}
-      {% endfor %}
+      {% for category in links %} {% if category.slug == "brincos" %}
+      <a href="{% url 'products_by_category' category.slug %}">Garanta o seu</a>
+      {% endif %} {% endfor %}
     </div>
-
   </div>
 
   <!-- Box 3 -->
   <div class="product-grid-box product-grid-box3">
-
     <!-- Img -->
-    <img 
-    src="{% static './images/box3.webp' %}" alt="produtos"
-    >
+    <img src="{% static './images/box3.webp' %}" alt="produtos" />
 
     <!-- Text -->
     <div class="product-grid-text">
       <span>Elegância</span>
       <strong>Brilho para cada ocasião </strong>
-      {% for category in links %}
-        {% if category.slug == "colares" %}
-          <a href="{% url 'products_by_category' category.slug %}">Garanta o seu</a>
-        {% endif %}
-      {% endfor %}
+      {% for category in links %} {% if category.slug == "colares" %}
+      <a href="{% url 'products_by_category' category.slug %}">Garanta o seu</a>
+      {% endif %} {% endfor %}
     </div>
+  </div>
+</section>
 
+<!-- Products -->
+<section id="products">
+  <!-- heading -->
+  <div class="products-heading">
+    <h2>Nossos Produtos</h2>
+    <p>Adicione nossos produtos à programação semanal</p>
   </div>
 
+  <div class="products-container">
+    <!-- Swiper -->
+    <div class="swiper mySwiperProducts">
+      <div class="swiper-wrapper">
+
+
+
+
+
+
+
+
+
+
+
+        <!-- slide -->
+        <div class="swiper-slide">
+          <!-- box -->
+          <div class="products-box">
+            <!-- img -->
+            <a href="#" class="products-img">
+              <img
+                src="{% static 'images/produtos/anel-1.webp' %}?v={{ ts }}"
+                alt="product"
+              />
+              <span>New</span>
+              <button class="product-cart-btn">Ver detalhes</button>
+            </a>
+
+            <!-- text -->
+            <div class="products-text">
+              <a href="#" class="product-title"> anel </a
+              ><!-- Nome produto -->
+              <span>20 </span>
+              <!-- Preço -->
+            </div>
+          </div>
+        </div>
+        <!-- slide end -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+
+      </div>
+
+      <div class="swiper-pagination"></div>
+    </div>
+  </div>
 </section>
+
+<!-- Swiper JS -->
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+
+<!-- Initialize Swiper -->
+<script>
+  var swiper = new Swiper(".mySwiperProducts", {
+    slidesPerView: 1,
+    spaceBetween: 10,
+    pagination: {
+      el: ".swiper-pagination",
+      clickable: true,
+    },
+    breakpoints: {
+      640: {
+        slidesPerView: 2,
+        spaceBetween: 20,
+      },
+      768: {
+        slidesPerView: 4,
+        spaceBetween: 20,
+      },
+      1024: {
+        slidesPerView: 5, /* produtos por slide */
+        spaceBetween: 20, /* gap */
+      },
+    },
+  });
+</script>
 
 {% endblock %}
