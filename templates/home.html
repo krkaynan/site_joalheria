@@ -34,8 +34,8 @@
 
     <!-- text -->
     <div class="w-info-text">
-      <strong>Frete grátis</strong>
-      <p>Aproveite entregas rápidas sem custo adicional</p>
+      <strong>Rapidez Na Entrega</strong>
+      <p>Varias opções de frete para sua joia chegar o quanto antes.</p>
     </div>
   </div>
 
@@ -200,7 +200,7 @@
     {% for category in links %}
       {% if category.slug == "aneis" %}
         <a href="{% url 'products_by_category' category.slug %}" class="category-box">
-          <img src="{% static 'images/categorias/categoria-anel.webp' %}?v={{ ts }}" alt="categoria-anel">
+          <img src="{% static 'images/categorias/categoria-anel.png' %}?v={{ ts }}" alt="categoria-anel">
           <strong>Anel</strong>
         </a>
       {% endif %}

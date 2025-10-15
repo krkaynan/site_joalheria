@@ -618,3 +618,112 @@ header{
     letter-spacing: 1px;
 
 }
+
+/* footer */
+footer{
+    width: 100%;
+    background-color: var(--background-color);
+}
+
+.footer-container{
+    max-width: 1200px;
+    width: 90%;
+    margin: 0px auto;
+    padding: 50px 0px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    border-bottom: 1px solid var(--branco_sec);
+}
+
+.footer-company-box{
+    max-width: 330px;
+}
+
+.footer-company-box .logo{
+    height: 70px;
+    display: flex;
+    margin-bottom: 20px;
+}
+
+.footer-company-box .logo img{
+    height: 100%;
+    object-fit: contain;
+}
+
+.footer-company-box p{
+    color: var(--ciza_sex);
+    margin: 5px 0px;
+    font-size: 0.9rem;
+    letter-spacing: 0.3px;
+    line-height: 1.4rem;
+}
+
+.footer-social{
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.footer-social a{
+    margin-top: 10px;
+    margin-right: 10px;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    border: 1px solid var(--branco);
+    color: var(--cinza_ter);
+    font-size: 0.9rem;
+    transition: all ease 0.3s;
+}
+
+.footer-social a:hover{
+    background-color: var(--main-color);
+    color: var(--branco);
+}
+
+.footer-link-box strong{
+    font-size: 1.2rem;
+    color: var(--cinza_ter);
+    font-weight: 500;
+}
+
+.footer-link-box ul{
+    margin-top: 5px;
+}
+
+.footer-link-box ul li a{
+    color: var(--ciza_sex);
+    font-size: 0.9rem;
+    margin-bottom: 5px;
+    display: flex;
+    transition: all ease 0.3s;
+}
+
+.footer-link-box ul li a:hover{
+    color: var(--main-color);
+}
+
+.footer-bottom{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    padding: 20px 0px;
+    max-width: 1200px;
+    width: 90%;
+    margin: auto;
+}
+
+.footer-bottom span{
+    color: var(--cinza_ter);
+    font-size: 0.9rem;
+}
+
+.footer-bottom span a{
+    text-decoration: none;
+    color: var(--cinza_ter);
+}

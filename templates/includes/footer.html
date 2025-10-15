@@ -1,1 +1,128 @@
 {% load static %}
+
+<footer>
+
+    <!-- container -->
+    <div class="footer-container">
+
+        <!-- box -->
+        <div class="footer-company-box">
+
+            <!-- Logo-->
+            <a href="{% url 'home' %}" class="logo">
+                <img src="{% static './images/logo.png' %}" alt="logo">
+            </a>
+
+            <!-- details -->
+            <p>
+                Iris transforma momentos em ícones, joias contemporâneas de luxo com linhas puras e acabamento artesanal. 
+            </p>
+
+            <!-- social -->
+            <div class="footer-social">
+
+                <!-- Instagram -->
+                <a href="https://www.instagram.com/krkaynan?igsh=MTRqNHphbHBpcDRkZQ%3D%3D&utm_source=qr">
+                    <i class="fa-brands fa-instagram"></i>
+                </a>
+
+                <!-- Linkedin -->
+                <a href="https://www.linkedin.com/in/kaynanraikkonen/">
+                    <i class="fa-brands fa-linkedin-in"></i>
+                </a>
+
+                <!-- Github -->
+                <a href="https://github.com/krkaynan">
+                    <i class="fa-brands fa-github-alt"></i>
+                </a>
+
+                <!-- Whatsapp-->
+                <a href="https://wa.me/5511945553352">
+                    <i class="fa-brands fa-whatsapp"></i>
+                </a>
+
+            </div>
+
+        </div>
+
+        <!-- link Site -->
+        <div class="footer-link-box">
+
+            <strong>Principais Links</strong>
+
+            <ul>
+                <li><a href="{% url 'home' %}">HOME</a></li>
+
+
+                <li><a href="{% url 'store' %}">SALE</a></li>
+
+
+                {% for category in links %}
+                    {% if category.slug == "brincos" %} 
+                        <li><a href="{% url 'products_by_category' category.slug %}">BRINCOS</a></li>
+                    {% endif %}
+                {% endfor %}
+
+                {% for category in links %}
+                    {% if category.slug == "pulseiras" %} 
+                        <li><a href="{% url 'products_by_category' category.slug %}">PULSEIRAS</a></li>
+                    {% endif %}
+                {% endfor %}
+
+                {% for category in links %}
+                    {% if category.slug == "colares" %} 
+                        <li><a href="{% url 'products_by_category' category.slug %}">COLARES</a></li>
+                    {% endif %}
+                {% endfor %}
+
+                {% for category in links %}
+                    {% if category.slug == "aneis" %} 
+                        <li><a href="{% url 'products_by_category' category.slug %}">ANÉIS</a></li>
+                    {% endif %}
+                {% endfor %}
+
+            </ul>
+
+        </div>
+
+        <!-- link Atendimento -->
+        <div class="footer-link-box">
+
+            <strong>Atendimento</strong>
+
+            <ul>
+                <li><a href="#">Central de atendimento</a></li>
+                <li><a href="#">Acompanhe o seu pedido</a></li>
+                <li><a href="#">Whatsapp</a></li>
+                <li><a href="#">Horário de atendimento</a></li>
+                <li><a href="#">Vendas corporativas</a></li>
+                <li><a href="#">Marketplaces e parcerias</a></li>
+            </ul>
+
+        </div>
+
+        <!-- Informações -->
+        <div class="footer-link-box">
+
+            <strong>Informações</strong>
+
+            <ul>
+                <li><a href="#">Politica de garantia</a></li>
+                <li><a href="#">Politica de troca</a></li>
+                <li><a href="#">Politica de consertos</a></li>
+                <li><a href="#">Aviso externo de privacidade</a></li>
+                <li><a href="#">Formas de pagamento</a></li>
+                <li><a href="#">Cartão presente</a></li>
+            </ul>
+
+        </div>
+
+    </div>
+
+    <!-- bottom -->
+    <div class="footer-bottom">
+        <span class="footer-owner"> Feito por <a href="https://github.com/krkaynan">KAYNAN RAIKKONEN</a></span>
+        <span class="copyright">&#169; Copyright 2025 - Íris Collection</span>
+    </div>
+
+</footer>
