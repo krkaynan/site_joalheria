@@ -119,72 +119,123 @@
 
 <!-- Products -->
 <section id="products">
+
   <!-- heading -->
   <div class="products-heading">
-    <h2>Nossos Produtos</h2>
-    <p>Adicione nossos produtos à programação semanal</p>
+    <h2>Mais vendidos</h2>
+    <p>Adicione nossos produtos á programação semanal</p>
   </div>
 
+  <!-- Produtos -->
   <div class="products-container">
-    <!-- Swiper -->
     <div class="swiper mySwiperProducts">
       <div class="swiper-wrapper">
 
+        {% for product in products %}
+          {% if forloop.counter <= 20 and forloop.counter0|divisibleby:3 %}
+            <!-- slide -->
+            <div class="swiper-slide">
 
+              <!-- box -->
+              <div class="products-box">
+                <!-- img -->
+                <a href="{{ product.get_url }}" class="products-img">
+                  <img
+                    src="{{ product.images.url }}"
+                    alt="{{ product.product_name }}"
+                  />
+                </a>
 
+                <!-- text -->
+                <div class="products-text">
 
+                  <!-- Nome produto -->
+                  <a 
+                    href="{{ product.get_url }}" 
+                    class="product-title">
+                    {{ product.product_name }}
+                  </a>
 
+                  <!-- Preço produto -->
+                  <span>
+                    R$ {{ product.price }}
+                  </span>
+                  
+                  <!-- Preço parcelado -->
+                  <div class="installment small text-muted">
+                    10x sem juros de R$ {{ product.installment }}
+                  </div>
 
+                  <!-- Botão ver detalhe -->
+                  <a 
+                    href="{{ product.get_url }}" class="btn btn-block btn-primary">
+                    Ver detalhes
+                  </a>
+                  
+                </div>
+              </div>
 
-
-
-
-
-        <!-- slide -->
-        <div class="swiper-slide">
-          <!-- box -->
-          <div class="products-box">
-            <!-- img -->
-            <a href="#" class="products-img">
-              <img
-                src="{% static 'images/produtos/anel-1.webp' %}?v={{ ts }}"
-                alt="product"
-              />
-              <span>New</span>
-              <button class="product-cart-btn">Ver detalhes</button>
-            </a>
-
-            <!-- text -->
-            <div class="products-text">
-              <a href="#" class="product-title"> anel </a
-              ><!-- Nome produto -->
-              <span>20 </span>
-              <!-- Preço -->
             </div>
-          </div>
-        </div>
-        <!-- slide end -->
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        
+            <!-- slide end -->
+          {% endif %}
+        {% endfor %}
 
       </div>
 
       <div class="swiper-pagination"></div>
+
+      <div class="swiper-button-prev" aria-label="Anterior"></div>
+      <div class="swiper-button-next" aria-label="Próximo"></div>
+
     </div>
+  </div>
+
+</section>
+
+<!-- category -->
+<section id="category">
+  <div class="category-container">
+    
+    <!-- box 1 -->
+    {% for category in links %}
+      {% if category.slug == "aneis" %}
+        <a href="{% url 'products_by_category' category.slug %}" class="category-box">
+          <img src="{% static 'images/categorias/categoria-anel.webp' %}?v={{ ts }}" alt="categoria-anel">
+          <strong>Anel</strong>
+        </a>
+      {% endif %}
+    {% endfor %}
+
+    <!-- box 2 -->
+    {% for category in links %}
+      {% if category.slug == "brincos" %}
+        <a href="{% url 'products_by_category' category.slug %}" class="category-box">
+          <img src="{% static 'images/categorias/categoria-brincos.png' %}?v={{ ts }}" alt="categoria-brincos">
+          <strong>Brincos</strong>
+        </a>
+      {% endif %}
+    {% endfor %}
+
+    <!-- box 3 -->
+    {% for category in links %}
+      {% if category.slug == "colares" %}
+        <a href="{% url 'products_by_category' category.slug %}" class="category-box">
+          <img src="{% static 'images/categorias/categoria-colares.png' %}?v={{ ts }}" alt="categoria-colares">
+          <strong>Colares</strong>
+        </a>
+      {% endif %}
+    {% endfor %}
+
+    <!-- box 4 -->
+    {% for category in links %}
+      {% if category.slug == "pulseiras" %}
+        <a href="{% url 'products_by_category' category.slug %}" class="category-box">
+          <img src="{% static 'images/categorias/categoria-pulseira.png' %}?v={{ ts }}" alt="categoria-pulseiras">
+          <strong>Pulseiras</strong>
+        </a>
+      {% endif %}
+    {% endfor %}
+
   </div>
 </section>
 
@@ -200,6 +251,10 @@
       el: ".swiper-pagination",
       clickable: true,
     },
+    navigation: {
+      nextEl: ".swiper-button-next",
+      prevEl: ".swiper-button-prev",
+    },
     breakpoints: {
       640: {
         slidesPerView: 2,
@@ -210,8 +265,8 @@
         spaceBetween: 20,
       },
       1024: {
-        slidesPerView: 5, /* produtos por slide */
-        spaceBetween: 20, /* gap */
+        slidesPerView: 4, /* produtos por slide */
+        spaceBetween: 30, /* gap */
       },
     },
   });
