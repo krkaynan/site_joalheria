@@ -17,7 +17,11 @@ body{
 .login-header{
     text-align: center;
     margin: 20px 0 40px 0;
-    
+    background-color: #fff;
+}
+
+#login-header{
+    background-color: #fff;
 }
 
 .login-header header {
