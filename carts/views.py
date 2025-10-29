@@ -225,3 +225,25 @@ def calcular_frete(request):
         'error': error,
     }
     return render(request, 'store/cart.html', context)
+
+def checkout(request, total=0, quantily=0, cart_items=None):
+    grand_total = 0
+    try:
+        cart = Cart.objects.get(cart_id=_cart_id(request))
+        cart_items = CartItem.objects.filter(cart=cart, is_active = True)
+        for cart_item in cart_items:
+            total += (cart_item.product.price * cart_item.quantily)
+            quantily += cart_item.quantily
+        grand_total = total 
+    except Cart.DoesNotExist:
+        pass
+    except ObjectDoesNotExist:
+        pass
+    
+    context = {
+        'total': total,
+        'quantily': quantily,
+        'cart_items': cart_items,
+        'grand_total': grand_total,
+    }
+    return render(request, 'store/checkout.html', context)
