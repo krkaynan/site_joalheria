@@ -1,0 +1,63 @@
+{% extends 'base.html' %} 
+{% load static %}
+{% block content %}
+<link href="{% static 'css/guia.css' %}" rel="stylesheet">
+
+<body>
+  <div class="overlay">
+    <div class="card" role="dialog" aria-labelledby="guia-title">
+
+      <header class="header_guia">
+        <div class="brand">ANÉIS</div>
+        <div class="subtitle">GUIA DE MEDIDAS</div>
+      </header>
+
+      <div class="intro">
+        <p style="margin:0; font-size:14px">Siga os passos abaixo para descobrir o tamanho do seu anel. Tenha em mãos fita métrica ou uma régua e um marcador.</p>
+      </div>
+
+      <section class="steps">
+        <div>
+
+          <article class="step">
+            <h3>Passo 1</h3>
+            <p>Enrole a fita métrica ao redor da base do dedo. Marque o ponto onde a fita se encontra. Se estiver usando linha, marque e depois meça com uma régua.</p>
+          </article>
+
+          <article class="step">
+            <h3>Passo 2</h3>
+            <p>Meça o comprimento marcado com uma régua até o centímetro mais próximo. Anote o valor em mm ou cm.</p>
+          </article>
+
+          <article class="step">
+            <h3>Passo 3</h3>
+            <p>Compare a medida com a tabela de conversão abaixo para encontrar o número do anel correspondente.</p>
+          </article>
+
+          <div class="sizes-wrap">
+            <div class="sizes-title">Tabela de medidas (circunferência / número)</div>
+            <div class="sizes-grid">
+              <div class="size-pill">5,0 cm <small>— 10</small></div>
+              <div class="size-pill">5,2 cm <small>— 12</small></div>
+              <div class="size-pill">5,4 cm <small>— 14</small></div>
+              <div class="size-pill">5,6 cm <small>— 16</small></div>
+              <div class="size-pill">5,8 cm <small>— 18</small></div>
+              <div class="size-pill">6,0 cm <small>— 20</small></div>
+            </div>
+          </div>
+        </div>
+
+        <aside class="images" aria-hidden="true">
+          <img src="/static/img/step1.jpg" alt="Passo 1 - medição com fita" />
+          <img src="/static/img/step2.jpg" alt="Passo 2 - marcar com caneta" />
+          <img src="/static/img/step3.jpg" alt="Passo 3 - medir com régua" />
+        </aside>
+
+      </section>
+
+    </div>
+  </div>
+</body>
+</html>
+
+{% endblock %}

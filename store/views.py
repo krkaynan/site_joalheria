@@ -7,7 +7,13 @@ from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.http import HttpResponse
 from django.db.models import Q
 from decimal import Decimal, ROUND_HALF_UP
+from django.shortcuts import render
 
+def guia(request):
+    context = {
+        'title': 'Guia de Produtos',
+    }
+    return render(request, 'store/guia.html', context)
 
 def store(request, category_slug = None):
     categories = None
@@ -56,6 +62,16 @@ def product_detail(request, category_slug, product_slug):
         in_cart = CartItem.objects.filter(cart__cart_id = _cart_id(request), product = single_product).exists()
     except Exception as e:
         raise e
+    
+    try:
+        price = Decimal(str(single_product.price))
+        installment = (price / Decimal(10)).quantize(Decimal('0.01'), rounding=ROUND_HALF_UP)
+        # valor bruto (Decimal) e string formatada para exibição em PT-BR (troca . por ,)
+        single_product.installment = installment
+        single_product.installment_display = f"R$ {format(installment, '0.2f')}".replace('.', ',')
+    except Exception:
+        single_product.installment = None
+        single_product.installment_display = None
     
     context = {
         'single_product': single_product,

@@ -317,20 +317,31 @@
   transform: scale(1.05,1);
 }
 
+#btn_frete{
+  cursor: pointer;
+}
+
+.btn .apply-btn{
+  cursor: pointer;
+}
+
 /* cart vazio */
 .cart-empty{
   padding: 56px 20px;
   text-align: center;
   color: var(--cinza_ter);
 }
+
 .cart-empty h2{
   font-size: 1.5rem; 
   margin: 0 0 18px 0;
   font-weight: 600;
 }
+
 .cart-empty .empty-cta{
   margin-top: 12px;
 }
+
 .cart-empty .btn{
   display:inline-block;
   width: 250px;

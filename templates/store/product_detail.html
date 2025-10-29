@@ -39,31 +39,48 @@
                 <var class="price h4">R$ {{ single_product.price }}</var>
               </div>
 
-              <!-- Descrição do produto -->
-              <p>
-                {{ single_product.description}}
-              </p>
-
-              <hr />
+              {% if single_product.installment_display %}
+                <p class="product-installment">
+              10x sem juros de {{ single_product.installment_display }}
+                </p>
+              {% endif %}
 
               <!-- Selecionar tamanho somente se for anel-->
               {% if single_product.category and single_product.category.slug == "aneis" %}
-              <div class="row">
-                <div class="item-option-select">
-                  <h6>Selecione o tamanho</h6>
-                    <select name="size" class="form-control" required>
-                      <option value="" disabled selected>Selecione</option>
+                <div class="selector">
+                  <div class="size-header">
+                    
+                    <button
+                      type="button"
+                      class="size-toggle"
+                      id="sizeToggle"
+                      aria-expanded="false"
+                      aria-controls="sizeGrid"
+                    >
+                      <h6>ARO</h6>
+                      <!-- seta (SVG) -->
+                      <svg class="arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" style="transition: transform 200ms;">
+                        <path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                      </svg>
+                    </button>
+                  </div>
 
+                  <select name="size" class="size-select-visually-hidden" id="realSizeSelect" aria-hidden="true" tabindex="-1" required></select>
+                    <div id="sizeGrid" class="size-grid" hidden>
                       {% for i in single_product.variation_set.sizes %}
-                      <option value="{{ i.variation_value | lower }}"> {{ i.variation_value | capfirst }} </option>
+                        <button type="button" class="size-cell" data-value="{{ i.variation_value | lower }}">
+                          {{ i.variation_value | capfirst }}
+                        </button>
                       {% endfor %}
-
-                    </select>
+                    </div>
                 </div>
-              </div>
               {% endif %}
 
               <hr />
+
+              <div class="guia">
+                <a href="{% url 'guia' %}">GUIA DE TAMANHOS</a>
+              </div>
 
               <!-- Botão adicionar ao carrinho-->
               {% if single_product.stock <= 0 %}
@@ -72,10 +89,46 @@
                   <button
                   type="submit"  
                   class="btn btn-primary">
-                  <span class="text">Adicionar ao carrinho</span>
-                  <i class="fas fa-shopping-cart"></i>
+                  <span class="text">ADICIONAR AO CARRINHO</span>
                   </button>
-                {% endif %}
+              {% endif %}
+
+              <!-- Descrição do produto -->
+              <div class="product-collapse">
+                <button type="button" class="collapse-btn" aria-expanded="false" aria-controls="prod-desc">
+                  <span class="label">DESCRIÇÃO</span>
+                  <span class="size-icon">+</span>
+                </button>
+
+                <div id="prod-desc-1" class="collapse-content" hidden>
+                  <p>{{ single_product.description }}</p>
+                </div>
+
+              </div>
+
+              <hr>
+
+              <!-- Descrição do site -->
+              <div class="product-collapse">
+                <button type="button" class="collapse-btn" aria-expanded="false" aria-controls="prod-desc">
+                  <span class="label">BENEFÍCIOS IRIS</span>
+                  <span class="size-icon">+</span>
+                </button>
+
+                <div id="prod-desc-2" class="collapse-content" hidden>
+                  <ul class="benefits">
+                    <li>Entrega rápida</li>
+                    <li>Suporte 24hrs</li>
+                    <li>Garantia de 1 ano</li>
+                    <li>Parcelamento em até 10x sem juros</li>
+                  </ul>
+
+                </div>
+
+              </div>
+
+              <hr>
+
 
             </article>
 
@@ -87,5 +140,139 @@
     </div>
   </div>
 </section>
+
+<script>
+(function(){
+  /* ==========================
+     SIZE TOGGLE (Aro / Grid)
+     ========================== */
+  const toggle = document.getElementById('sizeToggle');
+  const grid = document.getElementById('sizeGrid');
+  const realSelect = document.getElementById('realSizeSelect');
+
+  if (toggle && grid && realSelect) {
+    function setOpen(open){
+      grid.classList.toggle('open', open);
+      grid.hidden = !open;
+      toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+
+      const arrow = toggle.querySelector('.arrow');
+      if (arrow) {
+        if (open) arrow.style.setProperty('transform', 'rotate(180deg)');
+        else arrow.style.removeProperty('transform');
+      }
+    }
+
+    toggle.addEventListener('click', function(e){
+      e.stopPropagation();
+      setOpen(!grid.classList.contains('open'));
+    });
+
+    toggle.addEventListener('keydown', function(e){
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        setOpen(!grid.classList.contains('open'));
+      }
+    });
+
+    grid.addEventListener('click', function(e){
+      const btn = e.target.closest('.size-cell');
+      if (!btn) return;
+      selectSize(btn.dataset.value, btn);
+    });
+
+    grid.addEventListener('keydown', function(e){
+      const btn = e.target.closest('.size-cell');
+      if (!btn) return;
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        selectSize(btn.dataset.value, btn);
+      }
+    });
+
+    function selectSize(value, btnElement){
+      grid.querySelectorAll('.size-cell').forEach(n => n.classList.remove('selected'));
+      if (btnElement) btnElement.classList.add('selected');
+
+      const option = Array.from(realSelect.options).find(o => o.value === value);
+      if (option) {
+        option.selected = true;
+      } else {
+        realSelect.add(new Option(value, value, true, true));
+      }
+
+      setOpen(false);
+
+      const label = toggle.querySelector('.size-toggle-label');
+      if (label) label.textContent = btnElement ? btnElement.textContent.trim() : 'Selecionar';
+    }
+
+    grid.querySelectorAll('.size-cell').forEach((el) => el.setAttribute('tabindex', '0'));
+
+    // fecha o grid se clicar fora
+    document.addEventListener('click', function(e){
+      if (!toggle.contains(e.target) && !grid.contains(e.target)) {
+        setOpen(false);
+      }
+    });
+  } // fim size toggle existence check
+
+
+  /* ==========================
+     COLLAPSE (Descrição / Benefícios)
+     ========================== */
+
+  // Inicializa ícones conforme estado inicial
+  document.querySelectorAll('.collapse-btn').forEach(btn => {
+    const icon = btn.querySelector('.size-icon') || btn.querySelector('.icon');
+    const expanded = btn.getAttribute('aria-expanded') === 'true';
+    if (icon) icon.textContent = expanded ? '−' : '+';
+    // garante que o elemento é button
+    if (btn.tagName.toLowerCase() !== 'button') btn.setAttribute('role', 'button');
+  });
+
+  // clique delegado — abre/fecha apenas o painel relativo ao botão clicado
+  document.addEventListener('click', function(e){
+    const btn = e.target.closest('.collapse-btn');
+    if (!btn) return;
+
+    e.stopPropagation();
+
+    // tenta pelo aria-controls (id único), senão busca o .collapse-content dentro do mesmo wrapper
+    let content = null;
+    const id = btn.getAttribute('aria-controls');
+    if (id) content = document.getElementById(id);
+
+    if (!content) {
+      const wrapper = btn.closest('.product-collapse');
+      if (wrapper) content = wrapper.querySelector('.collapse-content');
+    }
+
+    if (!content) return;
+
+    const wasExpanded = btn.getAttribute('aria-expanded') === 'true';
+    const nowExpanded = !wasExpanded;
+
+    btn.setAttribute('aria-expanded', String(nowExpanded));
+    content.hidden = !nowExpanded;
+
+    const icon = btn.querySelector('.size-icon') || btn.querySelector('.icon');
+    if (icon) icon.textContent = nowExpanded ? '−' : '+';
+  });
+
+  // teclado: Enter / Space no botão delega ao click
+  document.addEventListener('keydown', function(e){
+    if (e.key !== 'Enter' && e.key !== ' ') return;
+    const active = document.activeElement;
+    const btn = active && active.closest ? active.closest('.collapse-btn') : null;
+    if (!btn) return;
+    e.preventDefault();
+    btn.click();
+  });
+
+})();
+</script>
+
+
 
 {% endblock %}

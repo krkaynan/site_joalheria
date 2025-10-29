@@ -3,6 +3,8 @@ from django.contrib.messages import constants as messages
 import certifi
 import os
 
+ORIGIN_CEP = '08558-200'
+
 os.environ['SSL_CERT_FILE'] = certifi.where()
 
 BASE_DIR = Path(__file__).resolve().parent.parent

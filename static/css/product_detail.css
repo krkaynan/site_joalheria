@@ -14,6 +14,11 @@
     --preto: #000;
     --preto_sec: #1d1d1d;
     --preto_ter: #272727;
+    --col-gap: 2.5rem;
+}
+
+html, body{
+  overflow-x: hidden;
 }
 
 /* Section styling */
@@ -24,26 +29,23 @@
 /* Container e card para layout moderno */
 .container {
     justify-content: center;
-    max-width: 1200px;
+    max-width: 100%;
     margin: 0 auto;
     padding: 0 1rem;
 }
 
-.card {
-    background-color: var(--branco);
-    padding: 30px 30px;
-    border-radius: 12px;
-    box-shadow: 0 0px 5px rgba(0, 0, 0, 0.08);
-    overflow: hidden;
-    border: none;
+.row.no-gutters {
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 15rem;
+    width: 100%;
+    box-sizing: border-box;
 }
 
-.row.no-gutters {
-    margin: 0;
-    display: flex;
-    flex-wrap: wrap;
-    width: 100%;
-    height: auto; 
+.row.no-gutters > .col-md-6 {
+  flex: 0 0 calc((100% - var(--col-gap)) / 2);
+  max-width: calc((100% - var(--col-gap)) / 2);
+  box-sizing: border-box;
 }
 
 .col-md-6 {
@@ -72,24 +74,23 @@
 
 .img-big-wrap a {
     display: block;
-    width: 100%;
-    height: 100%;
+    width: 90%;
+    height: 90%;
 }
 
 .img-big-wrap img {
-    width: 95%;
-    height: 95%;
+    width: 100%;
+    height: 100%;
+    margin-left: 100px;
     object-fit: cover; 
     transition: transform 0.3s ease;
 }
 
 .col-md-6:last-child main.border-left {
-    padding: 3rem;
     border-left: 1px solid var(--branco_sec); 
     display: flex;
     flex-direction: column;
     justify-content: center;
-    min-height: 500px;
     background: var(--branco); 
 }
 
@@ -105,8 +106,10 @@ form {
 
 /* Título */
 .content-body .title {
-    font-size: 30px;
-    font-weight: 600;
+    margin-top: 120px;
+    font-size: 20px;
+    font-weight: 400;
+    letter-spacing: 0.05em;
     color: var(--cinza_ter);
     margin-bottom: 1rem;
     line-height: 1.2;
@@ -114,30 +117,40 @@ form {
 
 /* Preço */
 .content-body .price {
-    font-size: 2rem;
-    font-weight: 700;
-    color: var(--main-color);
+    font-size: 18px;
+    font-weight: 500;
+    color: var(--preto);
     display: block;
-    margin-bottom: 1rem;
+    margin-bottom: 3px;
+    font-style: normal;
+    letter-spacing: 0.01em;
 }
 
 /* Descrição */
 .content-body p {
     color: var(--cinza_qua);
-    margin-bottom: 2rem;
-    font-size: 1.1rem;
+    font-size: 0.9rem;
     line-height: 1.7;
+    max-width: 375px;
+    text-align: justify;
 }
 
 /* Linhas de separação */
 hr {
-    border: none;
     height: 1px;
-    background-color: var(--branco_sec);
-    margin: 2rem 0;
+    border: none;
+    background-color: var(--ciza_sex);
+    margin: 5px 330px 20px 0px;
+
 }
 
 /* Seleção de tamanho */
+
+.selector{
+  margin-top: 20px;
+  max-width: 100px !important;
+}
+
 .item-option-select h6 {
     font-size: 1rem;
     font-weight: 400;
@@ -168,30 +181,36 @@ hr {
     box-shadow: 0 0 0 3px rgba(202, 178, 115, 0.1);
 }
 
+/* guia */
+.guia a{
+    text-decoration: underline;
+    color: var(--cinza_qui);
+    font-size: 13px;
+}
+
 /* Botão */
 .btn.btn-primary {
-    background-color: var(--main-color);
-    border: none;
-    color: var(--branco);
-    padding: 1rem 2rem;
-    font-size: 1.1rem;
-    font-weight: 600;
-    border-radius: 8px;
-    transition: all 0.3s ease;
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-    text-decoration: none;
-    width: 70%;
-    justify-content: center;
+    display:inline-block;
+    width:370px;
+    height: 50px;
+    font-size: 14px;
+    padding:10px 14px;
+    margin-top: 20px;
+    border: 1px solid var(--preto);
+    text-align: center;
+    background: var(--branco);
+    color: var(--preto);
+    font-weight:500;
+    cursor:pointer;
+    transition: .3s;
 }
 
 .btn.btn-primary:hover {
-    transform: scale(1.05,1);
+    transform: scale(1.01,1);
 }
 
 .btn.btn-primary i {
-    font-size: 1.2rem;
+    font-size: 0.7rem;
 }
 
 /* Mensagem de esgotado */
@@ -200,4 +219,153 @@ hr {
     font-weight: 600;
     font-size: 1.2rem;
     margin: 1rem 0;
+}
+
+/* Botão de descrição */
+.collapse-btn{
+  display:inline-flex;
+  align-items:center;
+  padding-top: 10px;
+  border: none;
+  background:transparent;
+  cursor:pointer; 
+  font-size: 15px !important;
+  font-weight:400;
+}
+
+.collapse-btn .icon{
+  display: inline-block;
+  min-width: 1.2em;
+  text-align: center;
+  font-weight: 600;
+  margin-left: 8px;
+  user-select: none;
+}
+
+.collapse-content{ 
+    margin-top:0.6rem; 
+}
+
+/* Botão selecionar tamanho */
+
+.collapse-btn{
+  display:flex;
+  align-items:center;
+  justify-content:space-between; 
+  width:100%;
+  padding:10px 0;
+  border: none;
+  background:transparent;
+  cursor:pointer;
+  font-size: 15px !important;
+  font-weight:400;
+}
+
+.size-grid{
+  margin-top:0.6rem;
+  display: none;         
+  grid-template-columns: repeat(4, 1fr);
+  gap:20px;
+  max-width: 350px;
+}
+
+.size-grid.open{
+  display: grid;
+}
+
+.size-cell{
+  padding:10px 30px ;
+  border:1px solid #d0d0d0;
+  border-radius:6px;
+  background:var(--branco);
+  text-align:center;
+  cursor:pointer;
+  user-select:none;
+}
+
+.size-cell.selected{
+  background:var(--main-color);
+  color: var(--branco);
+  border: none;
+}
+
+.size-select-visually-hidden {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0 0 0 0) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+}
+
+.size-cell.selected {
+  font-weight: 600;
+}
+
+.size-toggle {
+  display: inline-flex;       
+  align-items: center;         
+  gap: 319px;                
+  padding: 0px 0px 10px 2px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  white-space: nowrap;         
+}
+
+.size-toggle .size-label {
+  display: inline-block;
+  line-height: 1;              
+}
+
+.size-toggle .arrow {
+  display: inline-block;
+  width: 1rem;                 
+  height: 1rem;
+  vertical-align: middle;
+  flex-shrink: 0;              
+}
+
+.size-header {
+  display: inline-flex;      
+  align-items: center;             
+  white-space: nowrap;      
+}
+
+.size-header h6 {
+  margin: 0;
+  font-size: 15px; 
+  font-weight: 400;       
+  line-height: 1; 
+  display: inline-block;
+}
+
+.collapse-btn{
+  max-width: 365px;
+}
+
+.benefits {
+  list-style: none; 
+  padding: 0;
+  margin: 0;
+}
+
+.benefits li {
+  position: relative;
+  padding-left: 20px;
+  margin-bottom: 8px;
+}
+
+.benefits li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 10px; 
+  width: 8px;
+  height: 8px;
+  background-color: var(--main-color); 
+  border-radius: 50%;
 }
