@@ -1,21 +1,19 @@
 from django.shortcuts import render, redirect
-from .forms import RegistrationForm
-from .models import Account
 from django.contrib import messages, auth
 from django.contrib.auth.decorators import login_required
+from django.db import IntegrityError, transaction
 from django.conf import settings
+
 from django.contrib.sites.shortcuts import get_current_site
 from django.core.mail import EmailMultiAlternatives
 from django.template.loader import render_to_string
 from django.utils.html import strip_tags
 from django.utils.encoding import force_bytes
-from django.utils.http import urlsafe_base64_encode
+from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.contrib.auth.tokens import default_token_generator
-from django.contrib import messages
-from django.shortcuts import redirect
-from django.utils.http import urlsafe_base64_decode
-import os
-from email.mime.image import MIMEImage
+
+from .forms import RegistrationForm
+from .models import Account
 
 # Registrar usuario
 def register(request):
@@ -27,35 +25,53 @@ def register(request):
             email = form.cleaned_data['email']
             password = form.cleaned_data['password']
             username = email.split('@')[0]
-            user = Account.objects.create_user(first_name = first_name, last_name = last_name, email = email, username = username, password = password)
-            user.save()   
-            
-            # Verificação de conta por email
-            current_site = get_current_site(request)
-            domain = current_site.domain if hasattr(current_site, "domain") else str(current_site)
-            mail_subject = 'Por favor ative sua conta'
-            context = {
-                'user': user,
-                'domain': domain,
-                'uid': urlsafe_base64_encode(force_bytes(user.pk)),
-                'token': default_token_generator.make_token(user),
-            }
-            html_message = render_to_string('accounts/account_verification_email.html', context)
-            text_message = strip_tags(html_message)
-            from_email = getattr(settings, "DEFAULT_FROM_EMAIL", "no-reply@seusite.com")
-            to_email = email
-            msg = EmailMultiAlternatives(mail_subject, text_message, from_email, [to_email])
-            msg.attach_alternative(html_message, "text/html")
-            msg.send()
+            if Account.objects.filter(username__iexact=username).exists():
+                msg = 'Nome de usuário já está em uso. Escolha outro.'
+                if 'username' in form.fields:
+                    form.add_error('username', msg)
+                else:
+                    form.add_error(None, msg)
+            else:
+                try:
+                    with transaction.atomic():
+                        user = Account.objects.create_user(
+                            first_name=first_name,
+                            last_name=last_name,
+                            email=email,
+                            username=username,
+                            password=password
+                        )
+                    current_site = get_current_site(request)
+                    domain = current_site.domain if hasattr(current_site, "domain") else str(current_site)
+                    mail_subject = 'Por favor ative sua conta'
+                    context = {
+                        'user': user,
+                        'domain': domain,
+                        'uid': urlsafe_base64_encode(force_bytes(user.pk)),
+                        'token': default_token_generator.make_token(user),
+                    }
+                    html_message = render_to_string('accounts/account_verification_email.html', context)
+                    text_message = strip_tags(html_message)
+                    from_email = getattr(settings, "DEFAULT_FROM_EMAIL", "no-reply@seusite.com")
+                    to_email = email
+                    msg_email = EmailMultiAlternatives(mail_subject, text_message, from_email, [to_email])
+                    msg_email.attach_alternative(html_message, "text/html")
+                    msg_email.send()
 
-            messages.success(request, 'Obrigado por se registrar! Verifique seu e-mail para ativar sua conta.')
-            return redirect('login')
-    else:          
+                    messages.success(request, 'Obrigado por se registrar! Verifique seu e-mail para ativar sua conta.')
+                    return redirect('login')
+
+                except IntegrityError:
+                    err_msg = 'Nome de usuário já está em uso (conflito). Escolha outro.'
+                    if 'username' in form.fields:
+                        form.add_error('username', err_msg)
+                    else:
+                        form.add_error(None, err_msg)
+
+    else:
         form = RegistrationForm()
-        
-    context = {
-        'form': form,
-    }
+
+    context = {'form': form}
     return render(request, 'accounts/register.html', context)
 
 # Login Usuario

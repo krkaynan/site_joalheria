@@ -77,10 +77,11 @@
               {% endif %}
 
               <hr />
-
-              <div class="guia">
-                <a href="{% url 'guia' %}">GUIA DE TAMANHOS</a>
-              </div>
+              {% if single_product.category and single_product.category.slug == "aneis" %}
+                <div class="guia">
+                  <a href="{% url 'guia' %}">GUIA DE TAMANHOS</a>
+                </div>
+              {% endif %}
 
               <!-- Botão adicionar ao carrinho-->
               {% if single_product.stock <= 0 %}
