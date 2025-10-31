@@ -1,9 +1,10 @@
 from django.shortcuts import render, redirect, get_object_or_404
+from django.core.exceptions import ObjectDoesNotExist
+from django.conf import settings
+from django.contrib.auth.decorators import login_required
 from store.models import Product, Variation
 from .models import Cart, CartItem
-from django.core.exceptions import ObjectDoesNotExist
 from decimal import Decimal, ROUND_HALF_UP
-from django.conf import settings
 import math 
 import requests
 
@@ -226,6 +227,7 @@ def calcular_frete(request):
     }
     return render(request, 'store/cart.html', context)
 
+@login_required(login_url='login')
 def checkout(request, total=0, quantily=0, cart_items=None):
     grand_total = 0
     try:

@@ -207,15 +207,21 @@ body{
 }
 
 /* Preço */
+.price-wrap{
+  margin-bottom: 26px;
+  margin-left: 70px;
+}
+
 .price-wrap .price{
-  font-weight:700;
+  font-weight:600;
   font-size:1.05rem;
+  font-style: normal;
   display:block;
-  margin: 0px 0px 0px 0px;
+  margin: 0; 
 }
 
 .price-wrap .text-muted{
-  padding-left: 23px;
+  padding-left: 25px;
 }
 
 /* Contador */
