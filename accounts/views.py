@@ -18,6 +18,8 @@ from .models import Account
 from carts.views import _cart_id
 from carts.models import Cart, CartItem
 
+import requests
+
 # Registrar usuario
 def register(request):
     if request.method == 'POST':

@@ -114,7 +114,7 @@
                   {% if shipping_price %}
                     R$ {{ shipping_price|floatformat:2}}
                   {% else %}
-                    - R$ ??
+                    R$ ??
                   {% endif %}
                 </dd>
               </dl>
@@ -125,24 +125,6 @@
                 <dt>TOTAL:</dt>
                 <dd class="text-right"><strong>R$ {{ grand_total|floatformat:2 }} </strong></dd>
               </dl>
-
-              <!--FRETE-->
-              <section class="coupon-section">
-                <h6>CALCULAR FRETE</h6>
-
-                <div class="coupon-form">
-                  <form 
-                    action="{% url 'calcular_frete' %}" 
-                    method="POST" 
-                    class="coupon-inline-form">
-
-                    {% csrf_token %}
-
-                    <input type="text" name="cep" placeholder="ADICIONE SEU CEP" class="coupon-input" required/>
-                    <button type="submit" class="btn apply-btn" id="btn_frete">CALCULAR</button>
-                  </form>
-                </div>
-              </section>
 
               <a href="{% url 'checkout'%}" class="btn checkout-btn">FINALIZAR COMPRA</a>
 

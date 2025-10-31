@@ -178,63 +178,40 @@
 
                                 <!-- Loop de itens -->
                                 {% for cart_item in cart_items %}
-
                                     <tr>
-
                                         <td>
-
-
                                             <figure class="itemside align-items-center">
-
-                                                
-
                                                 <div class="aside">
                                                     <img src="{{ cart_item.product.images.url }}" class="img-sm">
                                                 </div>
-
                                                 <figcaption class="info">
-
-                                                    <a 
-                                                        href="{{ cart_item.product.get_url }}" 
-                                                        class="title text-dark">{{ cart_item.product.product_name }}
-                                                    </a>
-
+                                                    <a href="{{ cart_item.product.get_url }}" class="title text-dark">{{ cart_item.product.product_name }}</a>
                                                     <p class="text-muted small">
                                                         {% if cart_item.variations.all %}
                                                             {% for item in cart_item.variations.all %}
-                                                            {% if item.variation_category|lower == 'size' %}
-                                                                Tamanho : <strong>{{ item.variation_value|capfirst }}</strong>
-                                                            {% else %}
-                                                                {{ item.variation_category|capfirst }} : {{ item.variation_value|capfirst }}
-                                                            {% endif %}
-                                                            <br>
+                                                                {% if item.variation_category|lower == 'size' %}
+                                                                    Tamanho : <strong>{{ item.variation_value|capfirst }}</strong>
+                                                                {% else %}
+                                                                    {{ item.variation_category|capfirst }} : {{ item.variation_value|capfirst }}
+                                                                {% endif %}
+                                                                <br>
                                                             {% endfor %}
                                                         {% endif %}
                                                     </p>
 
-                                                    <p 
-                                                        class="text-muted small">Quantidade: <strong>{{ cart_item.quantily }}</strong> 
-                                                    </p>
-
+                                                    <p class="text-muted small">Quantidade: <strong>{{ cart_item.quantily }}</strong></p>
                                                 </figcaption>
-
                                             </figure>
-
                                         </td>
 
                                         <td class="preco">
-
                                             <div class="price-wrap">
                                                 <var class="price">R$ {{ cart_item.sub_total }}</var>
                                                 <small class="text-muted">R$ {{ cart_item.product.price }}</small>
-                                            </div> 
-
+                                            </div>
                                         </td>
-
                                     </tr>
-
                                 {% endfor %}
-
                             </tbody>
                         </table>
 
@@ -243,26 +220,30 @@
                         <div class="container-total">
                             <dl class="dlist-align">
                                 <dt>PRODUTOS:</dt>
-                                <dd class="text-right">R$ {{ total|floatformat:2 }} </dd>
+                                <!-- id usado pelo JS -->
+                                <dd class="text-right" id="product-total">R$ {{ total|floatformat:2 }} </dd>
                             </dl>
 
                             <dl class="dlist-align small-muted">
                                 <dt>FRETE</dt>
                                 <dd class="text-right">
-                                {% if shipping_price %}
-                                    R$ {{ shipping_price|floatformat:2}}
-                                {% else %}
-                                    - R$ ??
-                                {% endif %}
+                                    <!-- id usado pelo JS -->
+                                    <span id="shipping-price">
+                                    {% if shipping_price %}
+                                        R$ {{ shipping_price|floatformat:2}}
+                                    {% else %}
+                                        R$ ??
+                                    {% endif %}
+                                    </span>
                                 </dd>
                             </dl>
 
                         <hr>
                             <dl class="dlist-align total-row">
                                 <dt>TOTAL:</dt>
-                                <dd class="text-right"><strong>R$ {{ grand_total|floatformat:2 }} </strong></dd>
+                                <!-- id usado pelo JS -->
+                                <dd class="text-right"><strong id="grand-total">R$ {{ grand_total|floatformat:2 }} </strong></dd>
                             </dl>
-
 
                         </div>
 
@@ -271,15 +252,155 @@
                             <button type="submit" name="submit" class="btn-primary">CONTINUAR</button>   
                         </div>
 
-                            
                         </form>
                     </div> 
                 </div> 
 
-            </aside> 
+            </aside>
+
 
         </div> 
     </div> 
 </section>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const STORE_COORDS = { lat: -23.55052, lon: -46.633308 }; 
+  const GEOCODER_EMAIL = 'seu-email@dominio.com'; 
+  const BASE_PRICE = 8.00;      
+  const FREE_KM = 3.0;         
+  const PRICE_PER_KM = 1.50;    
+
+  const cepInput = document.getElementById('cep');
+  const addressInput = document.getElementById('address');
+  const bairroInput = document.getElementById('bairro');
+  const cidadeInput = document.getElementById('cidade');
+  const estadoInput = document.getElementById('estado');
+
+  const shippingPriceEl = document.getElementById('shipping-price');
+  const productTotalEl = document.getElementById('product-total');
+  const grandTotalEl = document.getElementById('grand-total');
+
+  function parseBRL(element) {
+    if (!element) return 0;
+    const txt = element.textContent || element.innerText || '';
+    const num = txt.replace(/[^\d,.-]/g, '').replace(',', '.');
+    return parseFloat(num) || 0;
+  }
+
+  function formatBRL(v) {
+    return 'R$ ' + Number(v).toFixed(2).replace('.', ',');
+  }
+
+  function haversineKm(lat1, lon1, lat2, lon2) {
+    function toRad(x){ return x * Math.PI / 180; }
+    const R = 6371;
+    const dLat = toRad(lat2 - lat1);
+    const dLon = toRad(lon2 - lon1);
+    const a = Math.sin(dLat/2)*Math.sin(dLat/2) +
+              Math.cos(toRad(lat1))*Math.cos(toRad(lat2)) *
+              Math.sin(dLon/2)*Math.sin(dLon/2);
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+    return R * c;
+  }
+
+  function updateShippingUI(value) {
+    shippingPriceEl.textContent = (typeof value === 'number') ? formatBRL(value) : value;
+    const productTotal = parseBRL(productTotalEl);
+    const shipping = (typeof value === 'number') ? value : 0;
+    const grand = productTotal + shipping;
+    grandTotalEl.textContent = formatBRL(grand);
+  }
+
+  async function fetchCep(cep) {
+    cep = cep.replace(/\D/g,'');
+    if (!/^\d{8}$/.test(cep)) {
+      return Promise.reject('CEP inválido');
+    }
+
+    const url = `https://viacep.com.br/ws/${cep}/json/`;
+    try {
+      const r = await fetch(url);
+      const data = await r.json();
+      if (data.erro) throw new Error('CEP não encontrado');
+      if (addressInput) addressInput.value = data.logradouro || '';
+      if (bairroInput) bairroInput.value = data.bairro || '';
+      if (cidadeInput) cidadeInput.value = data.localidade || '';
+      if (estadoInput) estadoInput.value = data.uf || '';
+
+      return data; 
+    } catch (err) {
+      return Promise.reject(err.message || 'Erro ao consultar CEP');
+    }
+  }
+
+  async function geocodeAddressFull(addressFull) {
+    const q = encodeURIComponent(addressFull);
+    const url = `https://nominatim.openstreetmap.org/search?format=json&countrycodes=br&limit=1&q=${q}&email=${encodeURIComponent(GEOCODER_EMAIL)}`;
+    try {
+      const r = await fetch(url, {
+        headers: {
+          'Accept': 'application/json'
+        }
+      });
+      const arr = await r.json();
+      if (arr && arr.length > 0) {
+        return { lat: parseFloat(arr[0].lat), lon: parseFloat(arr[0].lon) };
+      }
+      throw new Error('Geocodificação não retornou resultados');
+    } catch (err) {
+      throw new Error(err.message || 'Erro na geocodificação');
+    }
+  }
+
+  function calculateShippingByDistance(distKm) {
+    if (distKm <= FREE_KM) return BASE_PRICE;
+    const extra = Math.max(0, distKm - FREE_KM);
+    return parseFloat((BASE_PRICE + extra * PRICE_PER_KM).toFixed(2));
+  }
+
+  let cepTimer = null;
+  function handleCepEvent() {
+    clearTimeout(cepTimer);
+    cepTimer = setTimeout(async () => {
+      const cepVal = (cepInput.value || '').replace(/\D/g,'');
+      if (cepVal.length !== 8) return; 
+      updateShippingUI('Calculando...');
+
+      try {
+        await fetchCep(cepVal); 
+        const parts = [
+          (addressInput && addressInput.value) || '',
+          (bairroInput && bairroInput.value) || '',
+          (cidadeInput && cidadeInput.value) || '',
+          (estadoInput && estadoInput.value) || '',
+          cepVal
+        ].filter(Boolean).join(', ');
+
+        const coords = await geocodeAddressFull(parts);
+        const dist = haversineKm(STORE_COORDS.lat, STORE_COORDS.lon, coords.lat, coords.lon);
+        const shipping = calculateShippingByDistance(dist);
+        updateShippingUI(shipping);
+
+      } catch (err) {
+        console.warn('Frete automático falhou:', err);
+        updateShippingUI('R$ ??');
+      }
+    }, 600);
+  }
+
+  if (cepInput) {
+    cepInput.addEventListener('input', handleCepEvent);
+    cepInput.addEventListener('blur', handleCepEvent);
+  }
+
+  const watchFields = [document.getElementById('numero'), document.getElementById('complemento')];
+  watchFields.forEach(f => {
+    if (f) f.addEventListener('blur', handleCepEvent);
+  });
+
+});
+</script>
+
 
 {% endblock %}
