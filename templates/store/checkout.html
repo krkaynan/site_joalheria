@@ -1,11 +1,20 @@
 {% load static %}
 
 {% block content %}
+
+<!-- Fonts -->
 <link 
     rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" 
 />
 
-<link href="{% static 'css/checkou.css' %}" rel="stylesheet">
+<link 
+    href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;700&display=swap" rel="stylesheet"
+>
+
+<!-- CSS -->
+<link 
+    href="{% static 'css/checkout.css' %}" rel="stylesheet"
+>
 
 <section class="section-content padding-y bg">
     <div class="container">
@@ -121,7 +130,7 @@
 
                             <!-- Complemento -->
                             <div class="col form-group">
-                                <input id="complemento" type="text" name="complemento" placeholder=" " class="form-control" required>
+                                <input id="complemento" type="text" name="complemento" placeholder=" " class="form-control">
                                 <label for="complemento" class="floating-label">Complemento</label>
                             </div>
 
@@ -401,6 +410,5 @@ document.addEventListener('DOMContentLoaded', () => {
 
 });
 </script>
-
 
 {% endblock %}

@@ -208,8 +208,10 @@ body{
 
 /* Preço */
 .price-wrap{
+  font-family: "Roboto Mono", ui-monospace, "SFMono-Regular", Menlo, Monaco, "Courier New", monospace;
   margin-bottom: 26px;
-  margin-left: 70px;
+  margin-left: 10px;
+  text-align: right;
 }
 
 .price-wrap .price{
@@ -220,8 +222,8 @@ body{
   margin: 0; 
 }
 
-.price-wrap .text-muted{
-  padding-left: 25px;
+.price-wrap * { 
+  font-family: inherit; 
 }
 
 /* Contador */

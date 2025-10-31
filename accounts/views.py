@@ -129,11 +129,17 @@ def login(request):
             except:
                 pass
             
-            if user.is_active:
-                auth.login(request, user)
+            auth.login(request, user)
+            url = request.META.get('HTTP_REFERER')
+            try:
+                query = requests.utils.urlparse(url).query
+                    
+                params = dict(x.split('=') for x in query.split('&'))
+                if 'next' in params:
+                    nextPage = params['next']
+                    return redirect(nextPage)
+            except:
                 return redirect('dashboard')
-            messages.error(request, 'Conta desativada.')
-            return redirect('login')
 
         messages.error(request, 'Usuário ou senha incorretos.')
         return redirect('login')

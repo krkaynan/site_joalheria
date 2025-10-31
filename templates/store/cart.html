@@ -108,16 +108,6 @@
                 <dd class="text-right">R$ {{ total|floatformat:2 }} </dd>
               </dl>
 
-              <dl class="dlist-align small-muted">
-                <dt>FRETE</dt>
-                <dd class="text-right">
-                  {% if shipping_price %}
-                    R$ {{ shipping_price|floatformat:2}}
-                  {% else %}
-                    R$ ??
-                  {% endif %}
-                </dd>
-              </dl>
 
               <hr class="summary-hr" />
 
