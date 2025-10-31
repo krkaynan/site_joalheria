@@ -167,11 +167,13 @@
 .price-wrap {
   display: inline-block;
   text-align: right;
+  font-style: normal;
   min-width: 160px;
   margin-bottom: 10px;
 }
 
 .price-wrap .price {
+  font-style: normal;
   display: block;
   font-size: 16px;
   font-weight: 800;
