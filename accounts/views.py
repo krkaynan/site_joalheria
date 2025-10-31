@@ -15,6 +15,9 @@ from django.contrib.auth.tokens import default_token_generator
 from .forms import RegistrationForm
 from .models import Account
 
+from carts.views import _cart_id
+from carts.models import Cart, CartItem
+
 # Registrar usuario
 def register(request):
     if request.method == 'POST':
@@ -89,6 +92,19 @@ def login(request):
                 pass
 
         if user is not None:
+            try:
+                cart = Cart.objects.get(cart_id=_cart_id(request))
+                is_cart_item_exists = CartItem.objects.filter(cart=cart).exists()
+                if is_cart_item_exists:
+                    cart_item = CartItem.objects.filter(cart=cart)
+                    print(cart_item)
+                    
+                    for item in cart_item:
+                        item.user = user
+                        item.save()
+            except:
+                pass
+            
             if user.is_active:
                 auth.login(request, user)
                 return redirect('dashboard')
@@ -177,7 +193,6 @@ def forgotPassword(request):
 
     return render(request, 'accounts/forgotPassword.html')
   
-
 def resetpassword_validate(request, uidb64, token):
     try:
         uid = urlsafe_base64_decode(uidb64).decode()
