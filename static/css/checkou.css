@@ -196,6 +196,7 @@ body{
   display:block;
   font-weight:500;
   font-size: 15px;
+  max-width: 310px;
   color: #152238;
   text-decoration:none;
   margin-bottom:6px;
@@ -210,13 +211,12 @@ body{
 .price-wrap{
   font-family: "Roboto Mono", ui-monospace, "SFMono-Regular", Menlo, Monaco, "Courier New", monospace;
   margin-bottom: 26px;
-  margin-left: 10px;
   text-align: right;
 }
 
 .price-wrap .price{
   font-weight:600;
-  font-size:1.05rem;
+  font-size:1rem;
   font-style: normal;
   display:block;
   margin: 0; 
