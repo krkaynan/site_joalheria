@@ -116,85 +116,115 @@
           </div>
         </header>
 
-        {% if products %}
-          {% for product in products %}
-            {% if forloop.counter0|divisibleby:3 %}
-              <!-- Produto -->
-              <div class="row">
-            {% endif %}
+          {% if products %}
+            {% for product in products %}
+              {% if forloop.counter0|divisibleby:3 %}
 
-            <div class="col-md-4">
-              <figure class="card card-product-grid" id="produto">
+                <!-- Produto -->
+                <div class="row">
+              {% endif %}
+                  <div class="col-md-4">
+                    <figure class="card card-product-grid" id="produto">
 
-                <!-- img -->
-                <div class="img-wrap">
-                  <a href="{{ product.get_url }}">
-                    <img src="{{ product.images.url }}" alt="{{ product.product_name }}" class="img-fluid"/>
-                  </a>
-                </div>
+                      <!-- img -->
+                      <div class="img-wrap">
+                        <a href="{{ product.get_url }}">
+                          <img src="{{ product.images.url }}" alt="{{ product.product_name }}" class="img-fluid"/>
+                        </a>
+                      </div>
 
-                <!-- text -->
-                <figcaption class="info-wrap">
+                      <!-- Detalhes Produtos -->
+                      <figcaption class="info-wrap">
 
-                  <!-- text produtos -->
-                  <div class="fix-height">
-                    <a href="{{ product.get_url }}" class="title">{{ product.product_name }}</a>
+                        <!-- Detalhes produtos -->
+                        <div class="fix-height">
+                          <a href="{{ product.get_url }}" class="title">{{ product.product_name }}</a>
 
-                    <div class="price-wrap mt-2">
-                      <span class="price">R$ {{ product.price }}</span>
+                          <!-- Preço -->
+                          <div class="price-wrap mt-2">
 
-                        <div class="installment small text-muted">
-                          10x sem juros de R$ {{ product.installment }}
+                            <!-- Preço -->
+                            <span class="price">
+                              R$ {{ product.price|floatformat:2 }}
+                            </span>
+                            
+                            <!-- Preço parcelado -->
+                            <div class="installment small text-muted">
+                                10x sem juros de R$ {{ product.installment|floatformat:2 }}
+                            </div>
+
+                            <!-- Botão ver detalhe -->
+                            <a 
+                              href="{{ product.get_url }}" class="btn btn-block btn-primary">
+                              Ver detalhes
+                            </a>
+
+                          </div>
+
+
                         </div>
-                      <!-- Botão ver detalhe -->
-                      <a 
-                        href="{{ product.get_url }}" class="btn btn-block btn-primary">
-                        Ver detalhes
-                      </a>
-                    </div>
 
+                      </figcaption>
 
+                    </figure>
                   </div>
-                </figcaption>
 
-              </figure>
-            </div>
+                {% if forloop.counter0|add:1|divisibleby:3 or forloop.last %}
+                </div> 
 
-              {% if forloop.counter0|add:1|divisibleby:3 or forloop.last %}
-              </div> 
               {% endif %}
             {% endfor %}
           {% else %}
+
             <!-- sem resultado para pesquisa-->
             <div>
               <h2>Sem resultados para essa pesquisa. Por favor tente novamente.</h2>
             </div>
+
           {% endif %}
 
-
-        <!-- Passador de paginas -->
+        <!-- Passador de pagina -->
         <nav class="mt-4" aria-label="Page navigation sample">
+
           {% if products.has_other_pages %}
           <ul class="pagination">
 
             {% if products.has_previous %}
-            <li class="page-item"><a class="page-link" href="?page={{ products.previous_page_number }}">Anterior</a></li>
+              <!-- Pagina Anterior -->
+              <li class="page-item">
+                <a class="page-link" href="?page={{ products.previous_page_number }}">Anterior</a>
+              </li>
             {% else %}
-            <li class="page-item disabled"><a class="page-link" href="#">Anterior</a></li>
+              <!-- Pagina Anterior Desabilitada -->
+              <li class="page-item disabled">
+                <a class="page-link" href="#">Anterior</a>
+              </li>
             {% endif %}
 
             {% for i in products.paginator.page_range %}
               {% if products.number == i %}
-                <li class="page-item active"><a class="page-link" href="#">{{i}}</a></li>
+                <!-- Contador Habilitado -->
+                <li class="page-item active">
+                  <a class="page-link" href="#">{{i}}</a>
+                </li>
               {% else %}
-                <li class="page-item"><a class="page-link" href="?page={{i}}">{{i}}</a></li>
+                <!-- Contador -->
+                <li class="page-item">
+                  <a class="page-link" href="?page={{i}}">{{i}}</a>
+                </li>
               {% endif %}
             {% endfor %}
 
             {% if products.has_next %}
-              <li class="page-item"><a class="page-link" href="?page={{ products.next_page_number }}">Proximo</a></li>
+              <!-- Proxima Pagina -->
+              <li class="page-item">
+                <a class="page-link" href="?page={{ products.next_page_number }}">Proximo</a>
+              </li>
             {% else %}
-              <li class="page-item disabled"><a class="page-link" href="#">Proximo</a></li>
+              <!-- Proxima Pagina Desabilitada -->
+              <li class="page-item disabled">
+                <a class="page-link" href="#">Proximo</a>
+              </li>
             {% endif %}
 
           </ul>
