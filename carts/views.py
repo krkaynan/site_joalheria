@@ -278,7 +278,7 @@ def calcular_frete(request):
                         per_km = Decimal('0.50')       # por km
                         shipping_price = (base_fee + (per_km * distance_km)).quantize(Decimal('0.01'), rounding=ROUND_HALF_UP)
 
-    grand_total = (total + (shipping_price or Decimal('0.00'))).quantize(Decimal('0.01'), rounding=ROUND_HALF_UP)
+    grand_total = (total + (shipping_price or Decimal('0.01'))).quantize(Decimal('0.01'), rounding=ROUND_HALF_UP)
 
     context = {
         'cart_items': cart_items,
@@ -303,7 +303,7 @@ def checkout(request, total=0, quantily=0, cart_items=None):
         for cart_item in cart_items:
             total += (cart_item.product.price * cart_item.quantily)
             quantily += cart_item.quantily
-        grand_total = total 
+        grand_total = total
     except Cart.DoesNotExist:
         pass
     except ObjectDoesNotExist:

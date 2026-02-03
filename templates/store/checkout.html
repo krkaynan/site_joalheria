@@ -274,11 +274,11 @@
 
 <script>
 document.addEventListener('DOMContentLoaded', () => {
-  const STORE_COORDS = { lat: -23.55052, lon: -46.633308 }; 
-  const GEOCODER_EMAIL = 'seu-email@dominio.com'; 
-  const BASE_PRICE = 8.00;      
-  const FREE_KM = 3.0;         
-  const PRICE_PER_KM = 1.50;    
+  const STORE_COORDS = { lat: -23.55052, lon: -46.633308 };
+  const GEOCODER_EMAIL = 'seu-email@dominio.com';
+  const BASE_PRICE = 8.00;
+  const FREE_KM = 3.0;
+  const PRICE_PER_KM = 1.50;
 
   const cepInput = document.getElementById('cep');
   const addressInput = document.getElementById('address');
@@ -290,15 +290,26 @@ document.addEventListener('DOMContentLoaded', () => {
   const productTotalEl = document.getElementById('product-total');
   const grandTotalEl = document.getElementById('grand-total');
 
-  function parseBRL(element) {
-    if (!element) return 0;
-    const txt = element.textContent || element.innerText || '';
-    const num = txt.replace(/[^\d,.-]/g, '').replace(',', '.');
-    return parseFloat(num) || 0;
+  // ----- util: parseia BRL (aceita elemento DOM ou string ou número) -----
+  function parseBRL(input) {
+    if (input == null) return 0;
+    if (typeof input === 'number') return input;
+    let txt = '';
+    if (typeof input === 'string') txt = input;
+    else if (input && (input.textContent || input.innerText)) txt = input.textContent || input.innerText;
+    txt = txt.trim();
+    if (!txt) return 0;
+    // remove "R$" e espaços, remove pontos de milhar e troca vírgula por ponto
+    const cleaned = txt.replace(/\s/g, '').replace(/R\$\s?/, '').replace(/\./g, '').replace(',', '.');
+    const n = parseFloat(cleaned);
+    return isNaN(n) ? 0 : n;
   }
 
+  // ----- util: formata para BRL bonito (pt-BR) -----
   function formatBRL(v) {
-    return 'R$ ' + Number(v).toFixed(2).replace('.', ',');
+    const num = (v == null || v === '') ? 0 : Number(v);
+    if (isNaN(num)) return 'R$ 0,00';
+    return 'R$ ' + num.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
   }
 
   function haversineKm(lat1, lon1, lat2, lon2) {
@@ -313,14 +324,27 @@ document.addEventListener('DOMContentLoaded', () => {
     return R * c;
   }
 
+  function calculateShippingByDistance(distKm) {
+    if (distKm <= FREE_KM) return BASE_PRICE;
+    const extra = Math.max(0, distKm - FREE_KM);
+    return parseFloat((BASE_PRICE + extra * PRICE_PER_KM).toFixed(2));
+  }
+
   function updateShippingUI(value) {
-    shippingPriceEl.textContent = (typeof value === 'number') ? formatBRL(value) : value;
+    // mostra preço do frete (value pode ser número ou texto)
+    shippingPriceEl.textContent = (typeof value === 'number') ? formatBRL(value) : String(value);
+
+    // pega total do produto (aceita se productTotalEl for elemento ou string)
     const productTotal = parseBRL(productTotalEl);
-    const shipping = (typeof value === 'number') ? value : 0;
+
+    // define shipping numérico (se value for número usa ele, senão tenta parsear o elemento ou texto)
+    const shipping = (typeof value === 'number') ? value : parseBRL(shippingPriceEl);
+
     const grand = productTotal + shipping;
     grandTotalEl.textContent = formatBRL(grand);
   }
 
+  // ----- CEP / geocoding (mantive seu fluxo) -----
   async function fetchCep(cep) {
     cep = cep.replace(/\D/g,'');
     if (!/^\d{8}$/.test(cep)) {
@@ -336,8 +360,7 @@ document.addEventListener('DOMContentLoaded', () => {
       if (bairroInput) bairroInput.value = data.bairro || '';
       if (cidadeInput) cidadeInput.value = data.localidade || '';
       if (estadoInput) estadoInput.value = data.uf || '';
-
-      return data; 
+      return data;
     } catch (err) {
       return Promise.reject(err.message || 'Erro ao consultar CEP');
     }
@@ -347,11 +370,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const q = encodeURIComponent(addressFull);
     const url = `https://nominatim.openstreetmap.org/search?format=json&countrycodes=br&limit=1&q=${q}&email=${encodeURIComponent(GEOCODER_EMAIL)}`;
     try {
-      const r = await fetch(url, {
-        headers: {
-          'Accept': 'application/json'
-        }
-      });
+      const r = await fetch(url, { headers: { 'Accept': 'application/json' } });
       const arr = await r.json();
       if (arr && arr.length > 0) {
         return { lat: parseFloat(arr[0].lat), lon: parseFloat(arr[0].lon) };
@@ -362,22 +381,16 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  function calculateShippingByDistance(distKm) {
-    if (distKm <= FREE_KM) return BASE_PRICE;
-    const extra = Math.max(0, distKm - FREE_KM);
-    return parseFloat((BASE_PRICE + extra * PRICE_PER_KM).toFixed(2));
-  }
-
   let cepTimer = null;
   function handleCepEvent() {
     clearTimeout(cepTimer);
     cepTimer = setTimeout(async () => {
       const cepVal = (cepInput.value || '').replace(/\D/g,'');
-      if (cepVal.length !== 8) return; 
+      if (cepVal.length !== 8) return;
       updateShippingUI('Calculando...');
 
       try {
-        await fetchCep(cepVal); 
+        await fetchCep(cepVal);
         const parts = [
           (addressInput && addressInput.value) || '',
           (bairroInput && bairroInput.value) || '',
@@ -408,7 +421,11 @@ document.addEventListener('DOMContentLoaded', () => {
     if (f) f.addEventListener('blur', handleCepEvent);
   });
 
+  // --- opcional: inicializa display se houver valores já na página ---
+  // updateShippingUI(parseBRL(shippingPriceEl)); // descomente se quiser recalcular na carga
+
 });
 </script>
+
 
 {% endblock %}
